@@ -13,6 +13,9 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
+import { Route as PostsIndexImport } from './routes/posts/index'
+import { Route as PostsPostIdIndexImport } from './routes/posts/$postId/index'
+import { Route as PostsPostIdEditImport } from './routes/posts/$postId/edit'
 
 // Create/Update Routes
 
@@ -25,6 +28,24 @@ const AboutRoute = AboutImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PostsIndexRoute = PostsIndexImport.update({
+  id: '/posts/',
+  path: '/posts/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PostsPostIdIndexRoute = PostsPostIdIndexImport.update({
+  id: '/posts/$postId/',
+  path: '/posts/$postId/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PostsPostIdEditRoute = PostsPostIdEditImport.update({
+  id: '/posts/$postId/edit',
+  path: '/posts/$postId/edit',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -46,6 +67,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/posts/': {
+      id: '/posts/'
+      path: '/posts'
+      fullPath: '/posts'
+      preLoaderRoute: typeof PostsIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/posts/$postId/edit': {
+      id: '/posts/$postId/edit'
+      path: '/posts/$postId/edit'
+      fullPath: '/posts/$postId/edit'
+      preLoaderRoute: typeof PostsPostIdEditImport
+      parentRoute: typeof rootRoute
+    }
+    '/posts/$postId/': {
+      id: '/posts/$postId/'
+      path: '/posts/$postId'
+      fullPath: '/posts/$postId'
+      preLoaderRoute: typeof PostsPostIdIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -54,36 +96,62 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/posts': typeof PostsIndexRoute
+  '/posts/$postId/edit': typeof PostsPostIdEditRoute
+  '/posts/$postId': typeof PostsPostIdIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/posts': typeof PostsIndexRoute
+  '/posts/$postId/edit': typeof PostsPostIdEditRoute
+  '/posts/$postId': typeof PostsPostIdIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/posts/': typeof PostsIndexRoute
+  '/posts/$postId/edit': typeof PostsPostIdEditRoute
+  '/posts/$postId/': typeof PostsPostIdIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/posts'
+    | '/posts/$postId/edit'
+    | '/posts/$postId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to: '/' | '/about' | '/posts' | '/posts/$postId/edit' | '/posts/$postId'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/posts/'
+    | '/posts/$postId/edit'
+    | '/posts/$postId/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  PostsIndexRoute: typeof PostsIndexRoute
+  PostsPostIdEditRoute: typeof PostsPostIdEditRoute
+  PostsPostIdIndexRoute: typeof PostsPostIdIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  PostsIndexRoute: PostsIndexRoute,
+  PostsPostIdEditRoute: PostsPostIdEditRoute,
+  PostsPostIdIndexRoute: PostsPostIdIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,7 +165,10 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about"
+        "/about",
+        "/posts/",
+        "/posts/$postId/edit",
+        "/posts/$postId/"
       ]
     },
     "/": {
@@ -105,6 +176,15 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/posts/": {
+      "filePath": "posts/index.tsx"
+    },
+    "/posts/$postId/edit": {
+      "filePath": "posts/$postId/edit.tsx"
+    },
+    "/posts/$postId/": {
+      "filePath": "posts/$postId/index.tsx"
     }
   }
 }

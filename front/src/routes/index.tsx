@@ -1,13 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
-  component: Index,
+  component: Home,
 })
 
-function Index() {
+function Home() {
   return (
     <div>
-      <h3>Welcome Home!</h3>
+      <h1>Welcome Home!</h1>
+      <Link to='/posts'>
+        Todo一覧
+      </Link>
     </div>
   )
 }
