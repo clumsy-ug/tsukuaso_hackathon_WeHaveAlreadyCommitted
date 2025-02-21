@@ -4,10 +4,14 @@ import { supabase } from '../client.ts'
 export class ChatManager {
   private channel: RealtimeChannel
 
-  constructor(roomId: string) {
+  constructor(
+    roomId: string,
+    setReceiveMessages: React.Dispatch<React.SetStateAction<string[]>>,
+    selfMs: boolean
+  ) {
     this.channel = supabase.channel(roomId, {
       config: {
-        broadcast: { self: false }
+        broadcast: { self: selfMs }
       }
     })
 
@@ -15,6 +19,7 @@ export class ChatManager {
       .on('broadcast', { event: 'new_message' }, (payload) => {
         //setReceiveMassages((prevMassages: any) => [...prevMassages, payload.new.content])
         console.log(payload)
+        setReceiveMessages((prevMassages) => [...prevMassages, payload.payload.message])
       })
       .subscribe()
   }
