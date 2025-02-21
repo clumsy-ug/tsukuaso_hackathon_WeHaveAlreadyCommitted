@@ -1,11 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/about')({
-  component: About,
+  component: About
 })
 
 function About() {
-  return (
-    <h2>何か書くページ</h2>
-  )
+  return <h2>何か書くページ</h2>
 }
