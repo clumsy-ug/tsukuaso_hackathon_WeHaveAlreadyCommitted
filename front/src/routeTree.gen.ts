@@ -11,20 +11,11 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
-import { Route as PostsIndexImport } from './routes/posts/index'
+import { Route as RealtimeChatTestIndexImport } from './routes/realtimeChatTest/index'
 import { Route as AuthTestIndexImport } from './routes/authTest/index'
-import { Route as PostsPostIdIndexImport } from './routes/posts/$postId/index'
-import { Route as PostsPostIdEditImport } from './routes/posts/$postId/edit'
 
 // Create/Update Routes
-
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -32,27 +23,15 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const PostsIndexRoute = PostsIndexImport.update({
-  id: '/posts/',
-  path: '/posts/',
+const RealtimeChatTestIndexRoute = RealtimeChatTestIndexImport.update({
+  id: '/realtimeChatTest/',
+  path: '/realtimeChatTest/',
   getParentRoute: () => rootRoute,
 } as any)
 
 const AuthTestIndexRoute = AuthTestIndexImport.update({
   id: '/authTest/',
   path: '/authTest/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PostsPostIdIndexRoute = PostsPostIdIndexImport.update({
-  id: '/posts/$postId/',
-  path: '/posts/$postId/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PostsPostIdEditRoute = PostsPostIdEditImport.update({
-  id: '/posts/$postId/edit',
-  path: '/posts/$postId/edit',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -67,13 +46,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
-    }
     '/authTest/': {
       id: '/authTest/'
       path: '/authTest'
@@ -81,25 +53,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthTestIndexImport
       parentRoute: typeof rootRoute
     }
-    '/posts/': {
-      id: '/posts/'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof PostsIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/posts/$postId/edit': {
-      id: '/posts/$postId/edit'
-      path: '/posts/$postId/edit'
-      fullPath: '/posts/$postId/edit'
-      preLoaderRoute: typeof PostsPostIdEditImport
-      parentRoute: typeof rootRoute
-    }
-    '/posts/$postId/': {
-      id: '/posts/$postId/'
-      path: '/posts/$postId'
-      fullPath: '/posts/$postId'
-      preLoaderRoute: typeof PostsPostIdIndexImport
+    '/realtimeChatTest/': {
+      id: '/realtimeChatTest/'
+      path: '/realtimeChatTest'
+      fullPath: '/realtimeChatTest'
+      preLoaderRoute: typeof RealtimeChatTestIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -109,76 +67,42 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/authTest': typeof AuthTestIndexRoute
-  '/posts': typeof PostsIndexRoute
-  '/posts/$postId/edit': typeof PostsPostIdEditRoute
-  '/posts/$postId': typeof PostsPostIdIndexRoute
+  '/realtimeChatTest': typeof RealtimeChatTestIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/authTest': typeof AuthTestIndexRoute
-  '/posts': typeof PostsIndexRoute
-  '/posts/$postId/edit': typeof PostsPostIdEditRoute
-  '/posts/$postId': typeof PostsPostIdIndexRoute
+  '/realtimeChatTest': typeof RealtimeChatTestIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/authTest/': typeof AuthTestIndexRoute
-  '/posts/': typeof PostsIndexRoute
-  '/posts/$postId/edit': typeof PostsPostIdEditRoute
-  '/posts/$postId/': typeof PostsPostIdIndexRoute
+  '/realtimeChatTest/': typeof RealtimeChatTestIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/about'
-    | '/authTest'
-    | '/posts'
-    | '/posts/$postId/edit'
-    | '/posts/$postId'
+  fullPaths: '/' | '/authTest' | '/realtimeChatTest'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/about'
-    | '/authTest'
-    | '/posts'
-    | '/posts/$postId/edit'
-    | '/posts/$postId'
-  id:
-    | '__root__'
-    | '/'
-    | '/about'
-    | '/authTest/'
-    | '/posts/'
-    | '/posts/$postId/edit'
-    | '/posts/$postId/'
+  to: '/' | '/authTest' | '/realtimeChatTest'
+  id: '__root__' | '/' | '/authTest/' | '/realtimeChatTest/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
   AuthTestIndexRoute: typeof AuthTestIndexRoute
-  PostsIndexRoute: typeof PostsIndexRoute
-  PostsPostIdEditRoute: typeof PostsPostIdEditRoute
-  PostsPostIdIndexRoute: typeof PostsPostIdIndexRoute
+  RealtimeChatTestIndexRoute: typeof RealtimeChatTestIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
   AuthTestIndexRoute: AuthTestIndexRoute,
-  PostsIndexRoute: PostsIndexRoute,
-  PostsPostIdEditRoute: PostsPostIdEditRoute,
-  PostsPostIdIndexRoute: PostsPostIdIndexRoute,
+  RealtimeChatTestIndexRoute: RealtimeChatTestIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -192,30 +116,18 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about",
         "/authTest/",
-        "/posts/",
-        "/posts/$postId/edit",
-        "/posts/$postId/"
+        "/realtimeChatTest/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/about": {
-      "filePath": "about.tsx"
-    },
     "/authTest/": {
       "filePath": "authTest/index.tsx"
     },
-    "/posts/": {
-      "filePath": "posts/index.tsx"
-    },
-    "/posts/$postId/edit": {
-      "filePath": "posts/$postId/edit.tsx"
-    },
-    "/posts/$postId/": {
-      "filePath": "posts/$postId/index.tsx"
+    "/realtimeChatTest/": {
+      "filePath": "realtimeChatTest/index.tsx"
     }
   }
 }
