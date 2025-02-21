@@ -1,12 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { emailSignUp } from '~/service/supabase/auth/emailSignUp'
 
-export const Route = createFileRoute('/authTest/singup/')({
-  component: AuthTest
-})
-
-function AuthTest() {
+const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -15,7 +10,7 @@ function AuthTest() {
     try {
       await emailSignUp(email, password)
     } catch (error) {
-      console.error('ログインエラー:', error)
+      console.error('新規登録エラー:', error)
     }
   }
 
@@ -35,7 +30,9 @@ function AuthTest() {
         </label>
       </div>
 
-      <button type="submit">ログイン</button>
+      <button type="submit">新規登録</button>
     </form>
   )
 }
+
+export default Signup
