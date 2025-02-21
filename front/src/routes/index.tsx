@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
+import Home from './-components/Home'
 import HomePending from './-components/HomePending'
 import HomeError from './-components/HomeError'
 
@@ -7,14 +8,3 @@ export const Route = createFileRoute('/')({
   pendingComponent: HomePending,
   errorComponent: HomeError
 })
-
-function Home() {
-  return (
-    <div>
-      <h1>Welcome Home!</h1>
-      <Link to='/posts'>
-        Todo一覧
-      </Link>
-    </div>
-  )
-}
