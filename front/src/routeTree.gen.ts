@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as RealtimeChatTestIndexImport } from './routes/realtimeChatTest/index'
 import { Route as AuthTestIndexImport } from './routes/authTest/index'
 import { Route as AuthIndexImport } from './routes/auth/index'
 
@@ -20,6 +21,12 @@ import { Route as AuthIndexImport } from './routes/auth/index'
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const RealtimeChatTestIndexRoute = RealtimeChatTestIndexImport.update({
+  id: '/realtimeChatTest/',
+  path: '/realtimeChatTest/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthTestIndexImport
       parentRoute: typeof rootRoute
     }
+    '/realtimeChatTest/': {
+      id: '/realtimeChatTest/'
+      path: '/realtimeChatTest'
+      fullPath: '/realtimeChatTest'
+      preLoaderRoute: typeof RealtimeChatTestIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -69,12 +83,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthIndexRoute
   '/authTest': typeof AuthTestIndexRoute
+  '/realtimeChatTest': typeof RealtimeChatTestIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthIndexRoute
   '/authTest': typeof AuthTestIndexRoute
+  '/realtimeChatTest': typeof RealtimeChatTestIndexRoute
 }
 
 export interface FileRoutesById {
@@ -82,14 +98,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth/': typeof AuthIndexRoute
   '/authTest/': typeof AuthTestIndexRoute
+  '/realtimeChatTest/': typeof RealtimeChatTestIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/authTest'
+  fullPaths: '/' | '/auth' | '/authTest' | '/realtimeChatTest'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/authTest'
-  id: '__root__' | '/' | '/auth/' | '/authTest/'
+  to: '/' | '/auth' | '/authTest' | '/realtimeChatTest'
+  id: '__root__' | '/' | '/auth/' | '/authTest/' | '/realtimeChatTest/'
   fileRoutesById: FileRoutesById
 }
 
@@ -97,12 +114,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthIndexRoute: typeof AuthIndexRoute
   AuthTestIndexRoute: typeof AuthTestIndexRoute
+  RealtimeChatTestIndexRoute: typeof RealtimeChatTestIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthIndexRoute: AuthIndexRoute,
   AuthTestIndexRoute: AuthTestIndexRoute,
+  RealtimeChatTestIndexRoute: RealtimeChatTestIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -117,7 +136,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/auth/",
-        "/authTest/"
+        "/authTest/",
+        "/realtimeChatTest/"
       ]
     },
     "/": {
@@ -128,6 +148,9 @@ export const routeTree = rootRoute
     },
     "/authTest/": {
       "filePath": "authTest/index.tsx"
+    },
+    "/realtimeChatTest/": {
+      "filePath": "realtimeChatTest/index.tsx"
     }
   }
 }
