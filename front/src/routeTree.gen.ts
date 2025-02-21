@@ -15,6 +15,7 @@ import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as PostsIndexImport } from './routes/posts/index'
 import { Route as PostsPostIdIndexImport } from './routes/posts/$postId/index'
+import { Route as AuthTestSingupIndexImport } from './routes/authTest/singup/index'
 import { Route as PostsPostIdEditImport } from './routes/posts/$postId/edit'
 
 // Create/Update Routes
@@ -40,6 +41,12 @@ const PostsIndexRoute = PostsIndexImport.update({
 const PostsPostIdIndexRoute = PostsPostIdIndexImport.update({
   id: '/posts/$postId/',
   path: '/posts/$postId/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthTestSingupIndexRoute = AuthTestSingupIndexImport.update({
+  id: '/authTest/singup/',
+  path: '/authTest/singup/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -81,6 +88,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsPostIdEditImport
       parentRoute: typeof rootRoute
     }
+    '/authTest/singup/': {
+      id: '/authTest/singup/'
+      path: '/authTest/singup'
+      fullPath: '/authTest/singup'
+      preLoaderRoute: typeof AuthTestSingupIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/posts/$postId/': {
       id: '/posts/$postId/'
       path: '/posts/$postId'
@@ -98,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/posts': typeof PostsIndexRoute
   '/posts/$postId/edit': typeof PostsPostIdEditRoute
+  '/authTest/singup': typeof AuthTestSingupIndexRoute
   '/posts/$postId': typeof PostsPostIdIndexRoute
 }
 
@@ -106,6 +121,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/posts': typeof PostsIndexRoute
   '/posts/$postId/edit': typeof PostsPostIdEditRoute
+  '/authTest/singup': typeof AuthTestSingupIndexRoute
   '/posts/$postId': typeof PostsPostIdIndexRoute
 }
 
@@ -115,6 +131,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/posts/': typeof PostsIndexRoute
   '/posts/$postId/edit': typeof PostsPostIdEditRoute
+  '/authTest/singup/': typeof AuthTestSingupIndexRoute
   '/posts/$postId/': typeof PostsPostIdIndexRoute
 }
 
@@ -125,15 +142,23 @@ export interface FileRouteTypes {
     | '/about'
     | '/posts'
     | '/posts/$postId/edit'
+    | '/authTest/singup'
     | '/posts/$postId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/posts' | '/posts/$postId/edit' | '/posts/$postId'
+  to:
+    | '/'
+    | '/about'
+    | '/posts'
+    | '/posts/$postId/edit'
+    | '/authTest/singup'
+    | '/posts/$postId'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/posts/'
     | '/posts/$postId/edit'
+    | '/authTest/singup/'
     | '/posts/$postId/'
   fileRoutesById: FileRoutesById
 }
@@ -143,6 +168,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   PostsIndexRoute: typeof PostsIndexRoute
   PostsPostIdEditRoute: typeof PostsPostIdEditRoute
+  AuthTestSingupIndexRoute: typeof AuthTestSingupIndexRoute
   PostsPostIdIndexRoute: typeof PostsPostIdIndexRoute
 }
 
@@ -151,6 +177,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   PostsIndexRoute: PostsIndexRoute,
   PostsPostIdEditRoute: PostsPostIdEditRoute,
+  AuthTestSingupIndexRoute: AuthTestSingupIndexRoute,
   PostsPostIdIndexRoute: PostsPostIdIndexRoute,
 }
 
@@ -168,6 +195,7 @@ export const routeTree = rootRoute
         "/about",
         "/posts/",
         "/posts/$postId/edit",
+        "/authTest/singup/",
         "/posts/$postId/"
       ]
     },
@@ -182,6 +210,9 @@ export const routeTree = rootRoute
     },
     "/posts/$postId/edit": {
       "filePath": "posts/$postId/edit.tsx"
+    },
+    "/authTest/singup/": {
+      "filePath": "authTest/singup/index.tsx"
     },
     "/posts/$postId/": {
       "filePath": "posts/$postId/index.tsx"
