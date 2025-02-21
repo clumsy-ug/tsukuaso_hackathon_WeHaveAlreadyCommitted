@@ -7,7 +7,7 @@ export class ChatManager {
   constructor(roomId: string) {
     this.channel = supabase.channel(roomId, {
       config: {
-        broadcast: { self: true }
+        broadcast: { self: false }
       }
     })
 
