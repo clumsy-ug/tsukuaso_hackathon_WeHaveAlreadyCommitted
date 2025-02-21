@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { emailLogin } from '~/service/supabase/auth/emailLogin'
+import { emailLogin } from '../../../../../clientSupabase/supabase/auth/emailLogin'
 
 const Login = () => {
   const [email, setEmail] = useState('')
