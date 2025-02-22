@@ -6,8 +6,7 @@ export const emailSignUp = async (email: string, password: string) => {
     password: password
   })
   if (error) {
-    throw new Error(error.message)
+    return false
   }
-  alert('登録成功')
-  console.log(data)
+  return true
 }

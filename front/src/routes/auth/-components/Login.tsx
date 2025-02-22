@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 import Box from '@mui/material/Box'
 import { LoginProps } from '../-types'
 
@@ -11,8 +11,7 @@ export default function Login({
   onPassChange,
   onBlurPassInput,
   isPassInputEmpty,
-  mailAddress,
-  password,
+
   onLoginSubmit
 }: LoginProps) {
   return (
@@ -22,7 +21,7 @@ export default function Login({
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <TextField
               label="メールアドレス"
-              style={{ width: '400px', margin: '5px' }}
+              style={{ marginTop: '15px' }}
               onChange={onMailChange}
               onBlur={onBlurMailInput}
               error={isMailInputEmpty}
@@ -31,7 +30,7 @@ export default function Login({
 
             <TextField
               label="パスワード"
-              style={{ width: '400px', margin: '5px' }}
+              style={{ marginTop: '15px' }}
               onChange={onPassChange}
               onBlur={onBlurPassInput}
               error={isPassInputEmpty}
@@ -39,10 +38,19 @@ export default function Login({
               type="password"
             />
           </Box>
-
-          <p>mail: {mailAddress}</p>
-          <p>pass: {password}</p>
-          <button onClick={onLoginSubmit}>ログイン</button>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+            <Button
+              size="large"
+              variant="contained"
+              onClick={onLoginSubmit}
+              sx={{
+                width: '80%',
+                padding: 2
+              }}
+            >
+              ログイン
+            </Button>
+          </Box>
         </Box>
       )}
     </>

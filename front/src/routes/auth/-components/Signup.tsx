@@ -2,6 +2,7 @@ import { TextField } from '@mui/material'
 import Box from '@mui/material/Box'
 import { SignupProps } from '../-types'
 
+import Button from '@mui/material/Button'
 // 新規登録フォーム
 export default function Signup({
   sectionNumber,
@@ -11,8 +12,7 @@ export default function Signup({
   onPassChange,
   onBlurPassInput,
   isPassInputEmpty,
-  mailAddress,
-  password,
+
   onSignupSubmit
 }: SignupProps) {
   return (
@@ -22,7 +22,7 @@ export default function Signup({
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <TextField
               label="メールアドレス"
-              style={{ width: '400px', margin: '5px' }}
+              style={{ marginTop: '15px' }}
               onChange={onMailChange}
               onBlur={onBlurMailInput}
               error={isMailInputEmpty}
@@ -31,7 +31,7 @@ export default function Signup({
 
             <TextField
               label="パスワード"
-              style={{ width: '400px', margin: '5px' }}
+              style={{ marginTop: '15px' }}
               onChange={onPassChange}
               onBlur={onBlurPassInput}
               error={isPassInputEmpty}
@@ -40,9 +40,19 @@ export default function Signup({
             />
           </Box>
 
-          <p>mail: {mailAddress}</p>
-          <p>pass: {password}</p>
-          <button onClick={onSignupSubmit}>新規登録</button>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+            <Button
+              size="large"
+              variant="contained"
+              onClick={onSignupSubmit}
+              sx={{
+                width: '80%',
+                padding: 2
+              }}
+            >
+              新規登録
+            </Button>
+          </Box>
         </Box>
       )}
     </>
