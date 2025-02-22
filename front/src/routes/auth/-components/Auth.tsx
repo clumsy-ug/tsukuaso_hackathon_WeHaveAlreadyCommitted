@@ -67,55 +67,64 @@ export default function Auth() {
 
   return (
     <div>
-      <Card
+      <Box
         sx={{
-          width: {
-            xs: '90%', // 画面が小さい時
-            sm: '400px', // 小型画面
-            md: '500px' // 中型画面
-          },
-          maxWidth: '700px',
-          margin: 'auto'
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '80vh' //正確には縦に対して中央寄せができていない
         }}
-        variant="outlined"
       >
-        <CardContent>
-          <Box>
-            <Box sx={{ borderBottom: 3, borderColor: 'divider' }}>
-              <Tabs value={sectionNumber} onChange={onSectionChange}>
-                <Tab label="ログイン" />
-                <Tab label="新規登録" />
-              </Tabs>
+        <Card
+          sx={{
+            width: {
+              xs: '90%', // 画面が小さい時
+              sm: '400px', // 小型画面
+              md: '500px' // 中型画面
+            },
+            maxWidth: '700px',
+            margin: 'auto'
+          }}
+          variant="outlined"
+        >
+          <CardContent>
+            <Box>
+              <Box sx={{ borderBottom: 3, borderColor: 'divider' }}>
+                <Tabs value={sectionNumber} onChange={onSectionChange}>
+                  <Tab label="ログイン" />
+                  <Tab label="新規登録" />
+                </Tabs>
+              </Box>
+
+              <Login
+                sectionNumber={sectionNumber}
+                onMailChange={onMailChange}
+                onBlurMailInput={onBlurMailInput}
+                isMailInputEmpty={isMailInputEmpty}
+                onPassChange={onPassChange}
+                onBlurPassInput={onBlurPassInput}
+                isPassInputEmpty={isPassInputEmpty}
+                mailAddress={mailAddress}
+                password={password}
+                onLoginSubmit={onLoginSubmit}
+              />
+
+              <Signup
+                sectionNumber={sectionNumber}
+                onMailChange={onMailChange}
+                onBlurMailInput={onBlurMailInput}
+                isMailInputEmpty={isMailInputEmpty}
+                onPassChange={onPassChange}
+                onBlurPassInput={onBlurPassInput}
+                isPassInputEmpty={isPassInputEmpty}
+                mailAddress={mailAddress}
+                password={password}
+                onSignupSubmit={onSignupSubmit}
+              />
             </Box>
-
-            <Login
-              sectionNumber={sectionNumber}
-              onMailChange={onMailChange}
-              onBlurMailInput={onBlurMailInput}
-              isMailInputEmpty={isMailInputEmpty}
-              onPassChange={onPassChange}
-              onBlurPassInput={onBlurPassInput}
-              isPassInputEmpty={isPassInputEmpty}
-              mailAddress={mailAddress}
-              password={password}
-              onLoginSubmit={onLoginSubmit}
-            />
-
-            <Signup
-              sectionNumber={sectionNumber}
-              onMailChange={onMailChange}
-              onBlurMailInput={onBlurMailInput}
-              isMailInputEmpty={isMailInputEmpty}
-              onPassChange={onPassChange}
-              onBlurPassInput={onBlurPassInput}
-              isPassInputEmpty={isPassInputEmpty}
-              mailAddress={mailAddress}
-              password={password}
-              onSignupSubmit={onSignupSubmit}
-            />
-          </Box>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </Box>
     </div>
   )
 }
