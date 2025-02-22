@@ -14,7 +14,6 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as HomeIndexImport } from './routes/home/index'
 import { Route as ChildChatIndexImport } from './routes/child-chat/index'
-import { Route as AuthTestIndexImport } from './routes/authTest/index'
 import { Route as AuthIndexImport } from './routes/auth/index'
 import { Route as SantaCheckIndexImport } from './routes/santa/check/index'
 import { Route as SantaChatIndexImport } from './routes/santa/chat/index'
@@ -36,12 +35,6 @@ const HomeIndexRoute = HomeIndexImport.update({
 const ChildChatIndexRoute = ChildChatIndexImport.update({
   id: '/child-chat/',
   path: '/child-chat/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AuthTestIndexRoute = AuthTestIndexImport.update({
-  id: '/authTest/',
-  path: '/authTest/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -81,13 +74,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexImport
       parentRoute: typeof rootRoute
     }
-    '/authTest/': {
-      id: '/authTest/'
-      path: '/authTest'
-      fullPath: '/authTest'
-      preLoaderRoute: typeof AuthTestIndexImport
-      parentRoute: typeof rootRoute
-    }
     '/child-chat/': {
       id: '/child-chat/'
       path: '/child-chat'
@@ -124,7 +110,6 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthIndexRoute
-  '/authTest': typeof AuthTestIndexRoute
   '/child-chat': typeof ChildChatIndexRoute
   '/home': typeof HomeIndexRoute
   '/santa/chat': typeof SantaChatIndexRoute
@@ -134,7 +119,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthIndexRoute
-  '/authTest': typeof AuthTestIndexRoute
   '/child-chat': typeof ChildChatIndexRoute
   '/home': typeof HomeIndexRoute
   '/santa/chat': typeof SantaChatIndexRoute
@@ -145,7 +129,6 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/auth/': typeof AuthIndexRoute
-  '/authTest/': typeof AuthTestIndexRoute
   '/child-chat/': typeof ChildChatIndexRoute
   '/home/': typeof HomeIndexRoute
   '/santa/chat/': typeof SantaChatIndexRoute
@@ -157,25 +140,16 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
-    | '/authTest'
     | '/child-chat'
     | '/home'
     | '/santa/chat'
     | '/santa/check'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/auth'
-    | '/authTest'
-    | '/child-chat'
-    | '/home'
-    | '/santa/chat'
-    | '/santa/check'
+  to: '/' | '/auth' | '/child-chat' | '/home' | '/santa/chat' | '/santa/check'
   id:
     | '__root__'
     | '/'
     | '/auth/'
-    | '/authTest/'
     | '/child-chat/'
     | '/home/'
     | '/santa/chat/'
@@ -186,7 +160,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthIndexRoute: typeof AuthIndexRoute
-  AuthTestIndexRoute: typeof AuthTestIndexRoute
   ChildChatIndexRoute: typeof ChildChatIndexRoute
   HomeIndexRoute: typeof HomeIndexRoute
   SantaChatIndexRoute: typeof SantaChatIndexRoute
@@ -196,7 +169,6 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthIndexRoute: AuthIndexRoute,
-  AuthTestIndexRoute: AuthTestIndexRoute,
   ChildChatIndexRoute: ChildChatIndexRoute,
   HomeIndexRoute: HomeIndexRoute,
   SantaChatIndexRoute: SantaChatIndexRoute,
@@ -215,7 +187,6 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/auth/",
-        "/authTest/",
         "/child-chat/",
         "/home/",
         "/santa/chat/",
@@ -227,9 +198,6 @@ export const routeTree = rootRoute
     },
     "/auth/": {
       "filePath": "auth/index.tsx"
-    },
-    "/authTest/": {
-      "filePath": "authTest/index.tsx"
     },
     "/child-chat/": {
       "filePath": "child-chat/index.tsx"
