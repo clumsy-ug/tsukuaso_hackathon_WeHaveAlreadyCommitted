@@ -1,4 +1,4 @@
-import { ChangeEvent, SyntheticEvent, useState } from 'react'
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
@@ -9,6 +9,7 @@ import CardContent from '@mui/material/CardContent'
 import { emailLogin } from '../../../../../clientSupabase/supabase/auth/emailLogin'
 import { emailSignUp } from '../../../../../clientSupabase/supabase/auth/emailSignUp'
 import { useNavigate } from '@tanstack/react-router'
+import { useSessionCheck } from '../-functions/sessionCheck'
 
 export default function Auth() {
   const [mailAddress, setMailAddress] = useState<string>('')
@@ -17,6 +18,7 @@ export default function Auth() {
   const [isPassInputEmpty, setIsPassInputEmpty] = useState<boolean>(false)
   const [sectionNumber, setSectionNumber] = useState<number>(0) // 0がログイン、1が新規登録
   const navigate = useNavigate()
+  const { sessionCheck } = useSessionCheck()
 
   const onSectionChange = (_e: SyntheticEvent, newValue: number) => {
     setSectionNumber(newValue)
@@ -61,7 +63,7 @@ export default function Auth() {
     try {
       const flag = await emailLogin(mailAddress, password)
       if (flag) {
-        navigate({ to: '/santa/check' }) //TODO後でhomeに変更
+        navigate({ to: '/home' })
       } else {
         alert('ログインに失敗しました')
       }
@@ -78,7 +80,7 @@ export default function Auth() {
     try {
       const flag = await emailSignUp(mailAddress, password)
       if (flag) {
-        navigate({ to: '/santa/check' }) //TODO後でhomeに変更
+        navigate({ to: '/home' })
       } else {
         alert('新規登録に失敗しました')
       }
@@ -86,6 +88,10 @@ export default function Auth() {
       console.error('ログインエラー:', error)
     }
   }
+
+  useEffect(() => {
+    sessionCheck()
+  }, [sessionCheck])
 
   return (
     <div>
