@@ -1,9 +1,14 @@
-import { Link } from '@tanstack/react-router'
+import { Suspense } from 'react'
+import { getSession } from '~/../../clientSupabase/supabase/auth/getSession'
+import HomePending from './HomePending'
+import PromiseReceiver from './PromiseReceiver'
 
 export default function Home() {
+  const user = getSession()
+
   return (
-    <>
-      <Link to="/santa/check">管理者画面へ</Link>
-    </>
+    <Suspense fallback={<HomePending />}>
+      <PromiseReceiver user={user} />
+    </Suspense>
   )
 }
