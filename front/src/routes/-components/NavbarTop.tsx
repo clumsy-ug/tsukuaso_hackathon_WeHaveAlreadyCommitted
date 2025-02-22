@@ -1,5 +1,11 @@
+import { Link } from "@tanstack/react-router";
+
 export default function NavbarTop() {
   return (
-    <p>上のnavbar</p>
+    <>
+      <Link to="/">Home</Link>
+      {" "}
+      <br /><br />
+    </>
   )
 }
