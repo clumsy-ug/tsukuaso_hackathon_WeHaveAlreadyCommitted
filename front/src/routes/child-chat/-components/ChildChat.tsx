@@ -1,6 +1,7 @@
 import { useParams } from '@tanstack/react-router'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { ChatManager } from '../../../../../clientSupabase/supabase/realtime/chatManager'
+import { initConnectCheck } from '../-function/passwordManager'
 
 export default function ChildChat() {
   const { room } = useParams({ from: '/child-chat/$room/' })
@@ -8,16 +9,20 @@ export default function ChildChat() {
   const chatManagerRef = useRef<ChatManager | null>(null)
   const [sendMessage, setSendMessage] = useState<string>('')
   const [receiveMessages, setReceiveMessages] = useState<string[]>([])
+  const [simplePassword, setSimplePassword] = useState<number | null>(null)
 
-  useEffect(() => {
-    //TODO4桁パス確認
-    const connectRealTimeChat = async () => {
+  const handleCheckPassword = async () => {
+    if (simplePassword === null) {
+      return
+    }
+    const isResponse = await initConnectCheck(simplePassword, room)
+    console.log(isResponse)
+    if (isResponse) {
       if (room !== undefined) {
-        chatManagerRef.current = new ChatManager(room, setReceiveMessages, true)
+        chatManagerRef.current = new ChatManager(room, setReceiveMessages, false)
       }
     }
-    connectRealTimeChat()
-  }, [room])
+  }
 
   const handleClick = () => {
     alert('音声認識スタート！')
@@ -26,12 +31,35 @@ export default function ChildChat() {
   return (
     <>
       <h1>サンタの画像</h1>
-      <input type="text" placeholder="サンタとのメッセージ" />
-      <button onClick={handleClick}>音声認識ボタン</button>
 
-      <input type="text" value={sendMessage} onChange={(e) => setSendMessage(e.target.value)} />
+      <input
+        placeholder="招待コード４桁"
+        type="number"
+        value={simplePassword ?? ''}
+        onChange={(e) => {
+          // 数字のみを許可
+          if (
+            e.target.value === '' ||
+            (/^\d+$/.test(e.target.value) && e.target.value.length <= 4)
+          ) {
+            setSimplePassword(e.target.value === '' ? null : Number(e.target.value))
+          }
+        }}
+      ></input>
+      <button onClick={handleCheckPassword}>招待コード確認</button>
+
+      <br />
+
+      <input
+        type="text"
+        placeholder="サンタとのメッセージ"
+        value={sendMessage}
+        onChange={(e) => setSendMessage(e.target.value)}
+      />
       <button onClick={() => chatManagerRef.current?.sendMessage(sendMessage)}>送信</button>
 
+      <br />
+      <button onClick={handleClick}>音声認識ボタン</button>
       {receiveMessages.map((ms, i) => {
         return <p key={i}>{ms}</p>
       })}
