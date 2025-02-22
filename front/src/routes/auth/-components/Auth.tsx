@@ -1,8 +1,9 @@
 import { ChangeEvent, SyntheticEvent, useState } from 'react'
-import { TextField } from '@mui/material'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
+import Login from './Login'
+import Signup from './Signup'
 
 export default function Auth() {
   const [mailAddress, setMailAddress] = useState<string>('')
@@ -47,7 +48,7 @@ export default function Auth() {
   }
 
   const onLoginSubmit = () => {
-    if (isMailInputEmpty || isPassInputEmpty) {
+    if (!mailAddress || !password) {
       alert('メールアドレスもしくはパスワードが入力されていません')
       return
     }
@@ -55,11 +56,11 @@ export default function Auth() {
   }
 
   const onSignupSubmit = () => {
-    if (isMailInputEmpty || isPassInputEmpty) {
+    if (!mailAddress || !password) {
       alert('メールアドレスもしくはパスワードが入力されていません')
       return
     }
-    alert('ログインのAPIリクエストを送るよ')
+    alert('新規登録のAPIリクエストを送るよ')
   }
 
   return (
@@ -72,65 +73,31 @@ export default function Auth() {
           </Tabs>
         </Box>
 
-        {/* ログインフォーム */}
-        {sectionNumber === 0 && (
-          <Box sx={{ p: 3 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <TextField
-                label="メールアドレス"
-                style={{ width: '400px', margin: '5px' }}
-                onChange={onMailChange}
-                onBlur={onBlurMailInput}
-                error={isMailInputEmpty}
-                helperText={isMailInputEmpty ? '入力してください' : ''}
-              />
+        <Login
+          sectionNumber={sectionNumber}
+          onMailChange={onMailChange}
+          onBlurMailInput={onBlurMailInput}
+          isMailInputEmpty={isMailInputEmpty}
+          onPassChange={onPassChange}
+          onBlurPassInput={onBlurPassInput}
+          isPassInputEmpty={isPassInputEmpty}
+          mailAddress={mailAddress}
+          password={password}
+          onLoginSubmit={onLoginSubmit}
+        />
 
-              <TextField
-                label="パスワード"
-                style={{ width: '400px', margin: '5px' }}
-                onChange={onPassChange}
-                onBlur={onBlurPassInput}
-                error={isPassInputEmpty}
-                helperText={isPassInputEmpty ? '入力してください' : ''}
-                type="password"
-              />
-            </Box>
-
-            <p>mail: {mailAddress}</p>
-            <p>pass: {password}</p>
-            <button onClick={onLoginSubmit}>ログイン</button>
-          </Box>
-        )}
-
-        {/* 新規登録フォーム */}
-        {sectionNumber === 1 && (
-          <Box sx={{ p: 3 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <TextField
-                label="メールアドレス"
-                style={{ width: '400px', margin: '5px' }}
-                onChange={onMailChange}
-                onBlur={onBlurMailInput}
-                error={isMailInputEmpty}
-                helperText={isMailInputEmpty ? '入力してください' : ''}
-              />
-
-              <TextField
-                label="パスワード"
-                style={{ width: '400px', margin: '5px' }}
-                onChange={onPassChange}
-                onBlur={onBlurPassInput}
-                error={isPassInputEmpty}
-                helperText={isPassInputEmpty ? '入力してください' : ''}
-                type="password"
-              />
-            </Box>
-
-            <p>mail: {mailAddress}</p>
-            <p>pass: {password}</p>
-            <button onClick={onSignupSubmit}>新規登録</button>
-          </Box>
-        )}
+        <Signup
+          sectionNumber={sectionNumber}
+          onMailChange={onMailChange}
+          onBlurMailInput={onBlurMailInput}
+          isMailInputEmpty={isMailInputEmpty}
+          onPassChange={onPassChange}
+          onBlurPassInput={onBlurPassInput}
+          isPassInputEmpty={isPassInputEmpty}
+          mailAddress={mailAddress}
+          password={password}
+          onSignupSubmit={onSignupSubmit}
+        />
       </Box>
     </div>
   )
