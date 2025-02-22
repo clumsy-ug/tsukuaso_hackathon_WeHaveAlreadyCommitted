@@ -17,7 +17,7 @@ export class ThreeScene {
       0.1, // near clipping plane
       1000 // far clipping plane
     )
-    this.camera.position.set(0, 0, 0)
+    this.camera.position.set(0, -1, 0)
 
     // レンダラーの作成
     this.renderer = new THREE.WebGLRenderer({ antialias: true })
