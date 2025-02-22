@@ -75,7 +75,7 @@ export default function Auth() {
             md: '500px' // 中型画面
           },
           maxWidth: '700px',
-          margin: 'auto' // 中央寄せ
+          margin: 'auto'
         }}
         variant="outlined"
       >
