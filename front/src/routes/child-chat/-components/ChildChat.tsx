@@ -1,7 +1,8 @@
 import { useParams } from '@tanstack/react-router'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChatManager } from '../../../../../clientSupabase/supabase/realtime/chatManager'
 import { initConnectCheck } from '../-function/passwordManager'
+import { ThreeMain } from '~/three/threeMain'
 
 export default function ChildChat() {
   const { room } = useParams({ from: '/child-chat/$room/' })
@@ -10,6 +11,29 @@ export default function ChildChat() {
   const [sendMessage, setSendMessage] = useState<string>('')
   const [receiveMessages, setReceiveMessages] = useState<string[]>([])
   const [simplePassword, setSimplePassword] = useState<number | null>(null)
+
+  const threeCanvasRef = useRef<HTMLDivElement>(null)
+  const threeMainRef = useRef<ThreeMain | null>(null)
+
+  useEffect(() => {
+    // 開発者モードだと２回呼ばれる対策
+    if (threeMainRef.current) {
+      threeMainRef.current.dispose()
+      threeMainRef.current = null
+    }
+
+    if (threeCanvasRef.current) {
+      console.log('Initializing new instance')
+      threeMainRef.current = new ThreeMain(threeCanvasRef.current)
+    }
+
+    // クリーンアップ関数
+    return () => {
+      if (threeMainRef.current) {
+        threeMainRef.current.dispose()
+      }
+    }
+  }, [])
 
   const handleCheckPassword = async () => {
     if (simplePassword === null) {
@@ -49,6 +73,8 @@ export default function ChildChat() {
       <button onClick={handleCheckPassword}>招待コード確認</button>
 
       <br />
+
+      <div ref={threeCanvasRef} style={{ width: '50vw', height: '70vh' }} />
 
       <input
         type="text"

@@ -1,2 +1,4 @@
 front/.env
 clientSupabase/node_modules/
+/front/public/iamges
+/front/src/assets
