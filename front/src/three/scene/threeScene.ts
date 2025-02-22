@@ -1,11 +1,10 @@
 import * as THREE from 'three'
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
 export class ThreeScene {
   scene: THREE.Scene
   camera: THREE.PerspectiveCamera
   renderer: THREE.WebGLRenderer
-  orbitControls: OrbitControls
+
   constructor(containerElement: HTMLElement) {
     // シーンの作成
     this.scene = new THREE.Scene()
@@ -17,7 +16,7 @@ export class ThreeScene {
       0.1, // near clipping plane
       1000 // far clipping plane
     )
-    this.camera.position.set(0, -1, 0)
+    this.camera.position.set(0, 0, 0)
 
     // レンダラーの作成
     this.renderer = new THREE.WebGLRenderer({ antialias: true })
@@ -27,8 +26,6 @@ export class ThreeScene {
     this.renderer.localClippingEnabled = true
     this.renderer.domElement.style.width = '100%'
     this.renderer.domElement.style.height = '100%'
-
-    this.orbitControls = new OrbitControls(this.camera, this.renderer.domElement)
 
     // ライトの作成
     const light = new THREE.AmbientLight(0xffffff, 2)
