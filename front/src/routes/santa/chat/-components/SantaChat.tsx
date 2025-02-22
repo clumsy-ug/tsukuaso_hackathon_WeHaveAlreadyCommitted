@@ -10,6 +10,9 @@ export default function SantaChat() {
   useEffect(() => {
     const connectRealTimeChat = async () => {
       const userSession = await getSession()
+
+      //TODO後で消す
+      console.log(userSession!.id)
       if (userSession && userSession.id) {
         chatManagerRef.current = new ChatManager(userSession.id, setReceiveMessages, true)
       }
