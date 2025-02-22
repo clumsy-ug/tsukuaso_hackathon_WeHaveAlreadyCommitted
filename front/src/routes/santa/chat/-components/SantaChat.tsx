@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { ChatManager } from '~/../../clientSupabase/supabase/realtime/chatManager'
 import { getSession } from '~/../../clientSupabase/supabase/auth/getSession'
 import { initConnectCheck } from '../-function/passwordManager'
@@ -8,8 +8,14 @@ export default function SantaChat() {
   const [sendMessage, setSendMessage] = useState<string>('')
   const [receiveMessages, setReceiveMessages] = useState<string[]>([])
   const [simplePassword, setSimplePassword] = useState<number | null>(null)
-  useEffect(() => {
-    const connectRealTimeChat = async () => {
+
+  const handleCheckPassword = async () => {
+    if (simplePassword === null) {
+      return
+    }
+    const isResponse = await initConnectCheck(simplePassword)
+
+    if (isResponse) {
       const userSession = await getSession()
 
       //TODO後で消す
@@ -18,15 +24,6 @@ export default function SantaChat() {
         chatManagerRef.current = new ChatManager(userSession.id, setReceiveMessages, true)
       }
     }
-    connectRealTimeChat()
-  }, [])
-
-  const handleCheckPassword = async () => {
-    if (simplePassword === null) {
-      return
-    }
-    const isResponse = await initConnectCheck(simplePassword)
-    alert(isResponse ? '認証成功' : '認証失敗')
   }
 
   return (
