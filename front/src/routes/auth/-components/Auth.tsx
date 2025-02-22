@@ -61,7 +61,7 @@ export default function Auth() {
     try {
       const flag = await emailLogin(mailAddress, password)
       if (flag) {
-        navigate({ to: '/santa/check' }) //TODO後でhomeに変更
+        navigate({ to: '/home' })
       } else {
         alert('ログインに失敗しました')
       }
@@ -78,7 +78,7 @@ export default function Auth() {
     try {
       const flag = await emailSignUp(mailAddress, password)
       if (flag) {
-        navigate({ to: '/santa/check' }) //TODO後でhomeに変更
+        navigate({ to: '/home' })
       } else {
         alert('新規登録に失敗しました')
       }
