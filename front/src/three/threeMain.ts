@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { ThreeScene } from './scene/threeScene'
 import { RandomParticlesObj } from './object/randomParticlesObj'
-import { ImageObj } from './object/santaImageObj'
+import { ImageObj } from './object/imageObj'
 
 export class ThreeMain {
   private threeScene: ThreeScene
@@ -34,6 +34,7 @@ export class ThreeMain {
     this.threeScene.renderer.render(this.threeScene.scene, this.threeScene.camera)
 
     this.randomParticlesObj.animateParticle()
+    this.imageObj.update()
   }
 
   public resetCamera(): void {

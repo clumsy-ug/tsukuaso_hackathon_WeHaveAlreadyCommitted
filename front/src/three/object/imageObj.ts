@@ -4,6 +4,9 @@ import santaImage from '../../assets/images/santa_claus_front.png'
 export class ImageObj {
   private scene: THREE.Scene
   private mesh: THREE.Mesh | null = null
+  private time: number = 0
+  private amplitude: number = 0.5
+  private frequency: number = 0.01
 
   constructor(scene: THREE.Scene) {
     this.scene = scene
@@ -41,5 +44,14 @@ export class ImageObj {
         console.error('画像のロードに失敗しました', error)
       }
     )
+  }
+
+  update() {
+    if (!this.mesh) return
+
+    this.time += 0.05
+    // 小さな回転で揺れる動き
+    const rotationAmount = Math.sin(this.time) * 0.1
+    this.mesh.rotation.z = rotationAmount
   }
 }
