@@ -1,13 +1,12 @@
-import { supabase } from "../client.ts";
+import { supabase } from '../client.ts'
 
 export const emailLogin = async (email: string, password: string) => {
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email,
-    password: password,
-  });
+    password: password
+  })
   if (error) {
-    throw new Error(error.message);
+    return false
   }
-  alert("ログイン成功");
-  console.log(data);
-};
+  return true
+}
