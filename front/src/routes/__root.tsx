@@ -18,10 +18,28 @@ export const Route = createRootRoute({
 })
 
 const checkAuthSession = async (pathname: string) => {
-  const pulblicRoutes = ['/auth', '/', '/child-chat']
+  // パターンマッチングのための関数
+  const isPublicPath = (path: string) => {
+    const publicRoutes = [
+      '/auth',
+      '/',
+      // child-chatで始まるパスすべてを許可
+      '/child-chat'
+    ]
+
+    return publicRoutes.some((route) => {
+      if (route === '/child-chat') {
+        // /child-chat/で始まるすべてのパスをマッチ
+        return pathname.startsWith(route)
+      }
+      // 他のルートは完全一致
+      return path === route
+    })
+  }
+
   const session = await getSession()
 
-  if (session == null && !pulblicRoutes.includes(pathname)) {
+  if (session == null && !isPublicPath(pathname)) {
     throw redirect({
       to: '/auth',
       search: { redirect: pathname }
