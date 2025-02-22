@@ -6,6 +6,9 @@ import Login from './Login'
 import Signup from './Signup'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
+import { emailLogin } from '../../../../../clientSupabase/supabase/auth/emailLogin'
+import { emailSignUp } from '../../../../../clientSupabase/supabase/auth/emailSignUp'
+import { useNavigate } from '@tanstack/react-router'
 
 export default function Auth() {
   const [mailAddress, setMailAddress] = useState<string>('')
@@ -13,6 +16,7 @@ export default function Auth() {
   const [isMailInputEmpty, setIsMailInputEmpty] = useState<boolean>(false)
   const [isPassInputEmpty, setIsPassInputEmpty] = useState<boolean>(false)
   const [sectionNumber, setSectionNumber] = useState<number>(0) // 0がログイン、1が新規登録
+  const navigate = useNavigate()
 
   const onSectionChange = (_e: SyntheticEvent, newValue: number) => {
     setSectionNumber(newValue)
@@ -49,20 +53,38 @@ export default function Auth() {
     }
   }
 
-  const onLoginSubmit = () => {
+  const onLoginSubmit = async () => {
     if (!mailAddress || !password) {
       alert('メールアドレスもしくはパスワードが入力されていません')
       return
     }
-    alert('ログインのAPIリクエストを送るよ')
+    try {
+      const flag = await emailLogin(mailAddress, password)
+      if (flag) {
+        navigate({ to: '/santa/check' }) //TODO後でhomeに変更
+      } else {
+        alert('ログインに失敗しました')
+      }
+    } catch (error) {
+      console.error('ログインエラー:', error)
+    }
   }
 
-  const onSignupSubmit = () => {
+  const onSignupSubmit = async () => {
     if (!mailAddress || !password) {
       alert('メールアドレスもしくはパスワードが入力されていません')
       return
     }
-    alert('新規登録のAPIリクエストを送るよ')
+    try {
+      const flag = await emailSignUp(mailAddress, password)
+      if (flag) {
+        navigate({ to: '/santa/check' }) //TODO後でhomeに変更
+      } else {
+        alert('新規登録に失敗しました')
+      }
+    } catch (error) {
+      console.error('ログインエラー:', error)
+    }
   }
 
   return (
