@@ -78,3 +78,26 @@ export const verifySantaPass = async (password: number): Promise<boolean> => {
     return false
   }
 }
+
+export const toChildCVerifySantaPass = async (password: number, uid: string): Promise<boolean> => {
+  try {
+    const { data, error } = await supabase
+      .from('SantaPassword')
+      .select('password')
+      .eq('uid', uid)
+      .single()
+
+    if (data === null) {
+      return false
+    }
+
+    if (error) {
+      return false
+    }
+
+    return data.password === password
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
