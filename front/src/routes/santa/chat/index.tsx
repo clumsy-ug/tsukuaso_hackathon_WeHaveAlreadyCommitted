@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
-import { ChatManager } from '../../../../clientSupabase/supabase/realtime/chatManager'
-import { getSession } from '../../../../clientSupabase/supabase/auth/getSession'
+import { ChatManager } from '../../../../../clientSupabase/supabase/realtime/chatManager'
+import { getSession } from '../../../../../clientSupabase/supabase/auth/getSession'
 
-export const Route = createFileRoute('/santaChat/')({
+export const Route = createFileRoute('/santa/chat/')({
   component: RouteComponent
 })
 

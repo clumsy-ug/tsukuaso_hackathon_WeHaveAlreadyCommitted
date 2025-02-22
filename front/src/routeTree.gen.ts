@@ -12,21 +12,16 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as SantaChatIndexImport } from './routes/santaChat/index'
 import { Route as AuthTestIndexImport } from './routes/authTest/index'
 import { Route as AuthIndexImport } from './routes/auth/index'
+import { Route as SantaCheckIndexImport } from './routes/santa/check/index'
+import { Route as SantaChatIndexImport } from './routes/santa/chat/index'
 
 // Create/Update Routes
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const SantaChatIndexRoute = SantaChatIndexImport.update({
-  id: '/santaChat/',
-  path: '/santaChat/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,6 +34,18 @@ const AuthTestIndexRoute = AuthTestIndexImport.update({
 const AuthIndexRoute = AuthIndexImport.update({
   id: '/auth/',
   path: '/auth/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SantaCheckIndexRoute = SantaCheckIndexImport.update({
+  id: '/santa/check/',
+  path: '/santa/check/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SantaChatIndexRoute = SantaChatIndexImport.update({
+  id: '/santa/chat/',
+  path: '/santa/chat/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -67,11 +74,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthTestIndexImport
       parentRoute: typeof rootRoute
     }
-    '/santaChat/': {
-      id: '/santaChat/'
-      path: '/santaChat'
-      fullPath: '/santaChat'
+    '/santa/chat/': {
+      id: '/santa/chat/'
+      path: '/santa/chat'
+      fullPath: '/santa/chat'
       preLoaderRoute: typeof SantaChatIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/santa/check/': {
+      id: '/santa/check/'
+      path: '/santa/check'
+      fullPath: '/santa/check'
+      preLoaderRoute: typeof SantaCheckIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -83,14 +97,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthIndexRoute
   '/authTest': typeof AuthTestIndexRoute
-  '/santaChat': typeof SantaChatIndexRoute
+  '/santa/chat': typeof SantaChatIndexRoute
+  '/santa/check': typeof SantaCheckIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthIndexRoute
   '/authTest': typeof AuthTestIndexRoute
-  '/santaChat': typeof SantaChatIndexRoute
+  '/santa/chat': typeof SantaChatIndexRoute
+  '/santa/check': typeof SantaCheckIndexRoute
 }
 
 export interface FileRoutesById {
@@ -98,15 +114,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth/': typeof AuthIndexRoute
   '/authTest/': typeof AuthTestIndexRoute
-  '/santaChat/': typeof SantaChatIndexRoute
+  '/santa/chat/': typeof SantaChatIndexRoute
+  '/santa/check/': typeof SantaCheckIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/authTest' | '/santaChat'
+  fullPaths: '/' | '/auth' | '/authTest' | '/santa/chat' | '/santa/check'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/authTest' | '/santaChat'
-  id: '__root__' | '/' | '/auth/' | '/authTest/' | '/santaChat/'
+  to: '/' | '/auth' | '/authTest' | '/santa/chat' | '/santa/check'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth/'
+    | '/authTest/'
+    | '/santa/chat/'
+    | '/santa/check/'
   fileRoutesById: FileRoutesById
 }
 
@@ -115,6 +138,7 @@ export interface RootRouteChildren {
   AuthIndexRoute: typeof AuthIndexRoute
   AuthTestIndexRoute: typeof AuthTestIndexRoute
   SantaChatIndexRoute: typeof SantaChatIndexRoute
+  SantaCheckIndexRoute: typeof SantaCheckIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -122,6 +146,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthIndexRoute: AuthIndexRoute,
   AuthTestIndexRoute: AuthTestIndexRoute,
   SantaChatIndexRoute: SantaChatIndexRoute,
+  SantaCheckIndexRoute: SantaCheckIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -137,7 +162,8 @@ export const routeTree = rootRoute
         "/",
         "/auth/",
         "/authTest/",
-        "/santaChat/"
+        "/santa/chat/",
+        "/santa/check/"
       ]
     },
     "/": {
@@ -149,8 +175,11 @@ export const routeTree = rootRoute
     "/authTest/": {
       "filePath": "authTest/index.tsx"
     },
-    "/santaChat/": {
-      "filePath": "santaChat/index.tsx"
+    "/santa/chat/": {
+      "filePath": "santa/chat/index.tsx"
+    },
+    "/santa/check/": {
+      "filePath": "santa/check/index.tsx"
     }
   }
 }
