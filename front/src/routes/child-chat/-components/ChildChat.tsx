@@ -12,7 +12,7 @@ export default function ChildChat() {
 
   const chatManagerRef = useRef<ChatManager | null>(null)
   const [sendMessage, setSendMessage] = useState<string>('')
-  const [receiveMessages, setReceiveMessages] = useState<string[]>([])
+  const [receiveMessages, setReceiveMessages] = useState<{ text: string; sender: string }[]>([])
   const [simplePassword, setSimplePassword] = useState<number | null>(null)
 
   const threeCanvasRef = useRef<HTMLDivElement>(null)
@@ -45,7 +45,7 @@ export default function ChildChat() {
     console.log(isResponse)
     if (isResponse) {
       if (room !== undefined) {
-        chatManagerRef.current = new ChatManager(room, setReceiveMessages, false)
+        chatManagerRef.current = new ChatManager(room, setReceiveMessages, false, 'child')
       }
     }
   }

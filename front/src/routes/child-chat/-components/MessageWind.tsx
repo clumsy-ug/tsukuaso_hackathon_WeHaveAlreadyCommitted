@@ -1,6 +1,13 @@
 import { Box, Paper, Typography } from '@mui/material'
 
-export default function MessageWind({ receiveMessages }: { receiveMessages: string[] }) {
+export default function MessageWind({
+  receiveMessages
+}: {
+  receiveMessages: {
+    text: string
+    sender: string
+  }[]
+}) {
   return (
     <Paper
       sx={{
@@ -21,7 +28,7 @@ export default function MessageWind({ receiveMessages }: { receiveMessages: stri
         <Typography
           sx={{ mb: 2, fontSize: { xs: '1.4rem', sm: '1.6rem' }, letterSpacing: '0.4em' }}
         >
-          {receiveMessages[receiveMessages.length - 1]}
+          {receiveMessages[receiveMessages.length - 1]?.text || ''}
         </Typography>
       </Box>
     </Paper>
