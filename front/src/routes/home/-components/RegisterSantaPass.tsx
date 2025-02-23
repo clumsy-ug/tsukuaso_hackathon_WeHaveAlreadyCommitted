@@ -40,7 +40,6 @@ export const RegisterSantaPass = createCallable<RegisterManagePassProps, Respons
       const ok = await saveSantaPass(parsedNewSantaPass)
       if (!ok) {
         alert('登録に失敗しました')
-        call.end(false)
       } else {
         alert(`登録成功! 4桁パスワード: ${parsedNewSantaPass}`)
         call.end(true)
