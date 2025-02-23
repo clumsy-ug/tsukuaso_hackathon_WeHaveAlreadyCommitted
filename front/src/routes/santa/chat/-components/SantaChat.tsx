@@ -1,54 +1,56 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChatManager } from '~/../../clientSupabase/supabase/realtime/chatManager'
 import { getSession } from '~/../../clientSupabase/supabase/auth/getSession'
-import { initConnectCheck } from '../-function/passwordManager'
+
+import { Box, Card } from '@mui/material'
+import ReceiveMessage from './ReceiveMessage'
+import InputAction from './InputAction'
 
 export default function SantaChat() {
   const chatManagerRef = useRef<ChatManager | null>(null)
   const [sendMessage, setSendMessage] = useState<string>('')
-  const [receiveMessages, setReceiveMessages] = useState<string[]>([])
-  const [simplePassword, setSimplePassword] = useState<number | null>(null)
+  const [receiveMessages, setReceiveMessages] = useState<{ text: string; sender: string }[]>([])
 
-  const handleCheckPassword = async () => {
-    if (simplePassword === null) {
-      return
-    }
-    const isResponse = await initConnectCheck(simplePassword)
-
-    if (isResponse) {
+  useEffect(() => {
+    const initConnect = async () => {
       const userSession = await getSession()
 
-      //TODO後で消す
-      console.log(userSession!.id)
       if (userSession && userSession.id) {
-        chatManagerRef.current = new ChatManager(userSession.id, setReceiveMessages, true)
+        chatManagerRef.current = new ChatManager(userSession.id, setReceiveMessages, true, 'santa')
       }
     }
-  }
+    initConnect()
+  }, [])
 
   return (
-    <div>
-      <input
-        placeholder="招待コード４桁"
-        type="number"
-        value={simplePassword ?? ''}
-        onChange={(e) => {
-          // 数字のみを許可
-          if (
-            e.target.value === '' ||
-            (/^\d+$/.test(e.target.value) && e.target.value.length <= 4)
-          ) {
-            setSimplePassword(e.target.value === '' ? null : Number(e.target.value))
-          }
+    <Box
+      sx={{
+        width: '100%',
+        height: '90vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        bgcolor: '#fafafa'
+      }}
+    >
+      <Card
+        sx={{
+          width: { xs: '95%', sm: '80%', md: '60%' },
+          height: { xs: '95%', sm: '80%' },
+          display: 'flex',
+          flexDirection: 'column',
+          p: 2,
+          boxShadow: 3
         }}
-      ></input>
-      <button onClick={handleCheckPassword}>招待コード確認</button>
-      <br />
-      <input type="text" value={sendMessage} onChange={(e) => setSendMessage(e.target.value)} />
-      <button onClick={() => chatManagerRef.current?.sendMessage(sendMessage)}>送信</button>
-      {receiveMessages.map((ms, i) => {
-        return <p key={i}>{ms}</p>
-      })}
-    </div>
+      >
+        <ReceiveMessage receiveMessages={receiveMessages} />
+
+        <InputAction
+          sendMessage={sendMessage}
+          setSendMessage={setSendMessage}
+          onSendClick={() => chatManagerRef.current?.sendMessage(sendMessage)}
+        />
+      </Card>
+    </Box>
   )
 }
