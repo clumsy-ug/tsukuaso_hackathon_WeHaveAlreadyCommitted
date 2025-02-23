@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import santaImage from '../../assets/images/santa_claus_front.png'
 
-export class ImageObj {
+export class SantaImageObj {
   private scene: THREE.Scene
   private mesh: THREE.Mesh | null = null
   private time: number = 0

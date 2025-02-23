@@ -1,12 +1,14 @@
 import * as THREE from 'three'
 import { ThreeScene } from './scene/threeScene'
 import { RandomParticlesObj } from './object/randomParticlesObj'
-import { ImageObj } from './object/imageObj'
+import { SantaImageObj } from './object/SantaImageObj'
+import { ImageObj } from './object/ImgaObj'
 
 export class ThreeMain {
   private threeScene: ThreeScene
   private animationFrameId: number | null = null
   private randomParticlesObj: RandomParticlesObj
+  private santaImgObj: SantaImageObj
   private imageObj: ImageObj
 
   constructor(containerElement: HTMLElement) {
@@ -15,6 +17,9 @@ export class ThreeMain {
     this.setupEventListeners()
     this.randomParticlesObj = new RandomParticlesObj(this.threeScene.scene)
     this.randomParticlesObj.createParticlesObj()
+
+    this.santaImgObj = new SantaImageObj(this.threeScene.scene)
+    this.santaImgObj.createImageObj()
 
     this.imageObj = new ImageObj(this.threeScene.scene)
     this.imageObj.createImageObj()
@@ -34,6 +39,7 @@ export class ThreeMain {
     this.threeScene.renderer.render(this.threeScene.scene, this.threeScene.camera)
 
     this.randomParticlesObj.animateParticle()
+    this.santaImgObj.update()
     this.imageObj.update()
   }
 
