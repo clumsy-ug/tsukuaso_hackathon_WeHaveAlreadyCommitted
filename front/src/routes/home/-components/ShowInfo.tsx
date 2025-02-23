@@ -5,9 +5,11 @@ export default function ShowInfo({ user, santaPass }: PropsType) {
   const _user = use(user)
   const _santaPass = use(santaPass)
 
-  if (!_user || !_santaPass) {
-    return <h1>アカウント情報が取得できませんでした</h1>
+  if (!_user) {
+    return <h1>ユーザー認証に失敗しました</h1>
   }
+
+  if (!_santaPass) return
   
   return (
     <>
