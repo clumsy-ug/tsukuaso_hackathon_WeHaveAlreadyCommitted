@@ -3,6 +3,9 @@ import { useEffect, useRef, useState } from 'react'
 import { ChatManager } from '../../../../../clientSupabase/supabase/realtime/chatManager'
 import { initConnectCheck } from '../-function/passwordManager'
 import { ThreeMain } from '~/three/threeMain'
+import { Box } from '@mui/material'
+import MessageWind from './MessageWind'
+import InputAction from './InputAction'
 
 export default function ChildChat() {
   const { room } = useParams({ from: '/child-chat/$room/' })
@@ -27,7 +30,6 @@ export default function ChildChat() {
       threeMainRef.current = new ThreeMain(threeCanvasRef.current)
     }
 
-    // クリーンアップ関数
     return () => {
       if (threeMainRef.current) {
         threeMainRef.current.dispose()
@@ -53,8 +55,31 @@ export default function ChildChat() {
   }
 
   return (
-    <>
-      <h1>サンタの画像</h1>
+    <Box
+      sx={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
+      <Box
+        ref={threeCanvasRef}
+        sx={{
+          flex: 1, // 残りのスペースを埋める
+          width: '100%',
+          minHeight: '50vh'
+        }}
+      />
+
+      <MessageWind receiveMessages={receiveMessages} />
+
+      <InputAction
+        sendMessage={sendMessage}
+        setSendMessage={setSendMessage}
+        onSendClick={() => chatManagerRef.current?.sendMessage(sendMessage)}
+        onMicClick={handleClick}
+      />
 
       <input
         placeholder="招待コード４桁"
@@ -71,24 +96,6 @@ export default function ChildChat() {
         }}
       ></input>
       <button onClick={handleCheckPassword}>招待コード確認</button>
-
-      <br />
-
-      <div ref={threeCanvasRef} style={{ width: '50vw', height: '70vh' }} />
-
-      <input
-        type="text"
-        placeholder="サンタとのメッセージ"
-        value={sendMessage}
-        onChange={(e) => setSendMessage(e.target.value)}
-      />
-      <button onClick={() => chatManagerRef.current?.sendMessage(sendMessage)}>送信</button>
-
-      <br />
-      <button onClick={handleClick}>音声認識ボタン</button>
-      {receiveMessages.map((ms, i) => {
-        return <p key={i}>{ms}</p>
-      })}
-    </>
+    </Box>
   )
 }
