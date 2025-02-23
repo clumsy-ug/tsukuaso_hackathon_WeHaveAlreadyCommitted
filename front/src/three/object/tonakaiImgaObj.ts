@@ -7,6 +7,18 @@ export class TonakaiImageObj {
   private time: number = 0
   private amplitude: number = 0.5
   private frequency: number = 0.01
+  private readonly RANGE_X = 20
+  private readonly RANGE_Z = 10
+
+  private movements: {
+    speed: number
+    directionX: number // 1 or -1
+    targetZ: number
+  } = {
+    speed: 0,
+    directionX: 1,
+    targetZ: 0
+  }
 
   constructor(scene: THREE.Scene) {
     this.scene = scene
@@ -22,12 +34,11 @@ export class TonakaiImageObj {
       this.mesh = null
     }
 
-    // テクスチャの読み込み
     const textureLoader = new THREE.TextureLoader()
     textureLoader.load(
       santaImage,
       (texture) => {
-        const geometry = new THREE.PlaneGeometry(7, 7) // 画像のサイズを適当に調整
+        const geometry = new THREE.PlaneGeometry(2, 2)
         const material = new THREE.MeshBasicMaterial({
           map: texture,
           transparent: true,
@@ -35,9 +46,16 @@ export class TonakaiImageObj {
         })
 
         this.mesh = new THREE.Mesh(geometry, material)
-        this.mesh.position.set(0, 0, -5) // カメラの正面に配置
+        const startX = Math.random() < 0.5 ? -this.RANGE_X : this.RANGE_X
+        const z = -5 - Math.random() * this.RANGE_Z
+
+        this.mesh.position.set(startX, -5, z)
         this.scene.add(this.mesh)
-        console.log('画像がロードされ、シーンに追加されました')
+        this.movements = {
+          speed: 0.05 + Math.random() * 0.05, // ランダムな速度
+          directionX: startX < 0 ? 1 : -1, // 左から右、または右から左
+          targetZ: z // 目標のz位置
+        }
       },
       undefined,
       (error) => {
@@ -49,9 +67,22 @@ export class TonakaiImageObj {
   update() {
     if (!this.mesh) return
 
-    this.time += 0.05
-    // 小さな回転で揺れる動き
-    const rotationAmount = Math.sin(this.time) * 0.1
-    this.mesh.rotation.z = rotationAmount
+    const movement = this.movements
+
+    // x方向の移動
+    this.mesh.position.x += movement.speed * movement.directionX
+
+    // 範囲外に出たら反対側から再度開始
+    if (movement.directionX > 0 && this.mesh.position.x > this.RANGE_X) {
+      this.mesh.position.x = -this.RANGE_X
+      // 新しいz位置をランダムに設定
+      movement.targetZ = -5 - Math.random() * this.RANGE_Z
+    } else if (movement.directionX < 0 && this.mesh.position.x < -this.RANGE_X) {
+      this.mesh.position.x = this.RANGE_X
+      movement.targetZ = -5 - Math.random() * this.RANGE_Z
+    }
+
+    // z位置をなめらかに補間
+    this.mesh.position.z += (movement.targetZ - this.mesh.position.z) * 0.05
   }
 }

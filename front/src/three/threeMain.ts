@@ -2,12 +2,14 @@ import * as THREE from 'three'
 import { ThreeScene } from './scene/threeScene'
 import { RandomParticlesObj } from './object/randomParticlesObj'
 import { SantaImageObj } from './object/SantaImageObj'
+import { TonakaiImageObj } from './object/tonakaiImgaObj'
 
 export class ThreeMain {
   private threeScene: ThreeScene
   private animationFrameId: number | null = null
   private randomParticlesObj: RandomParticlesObj
-  private imageObj: SantaImageObj
+  private santaImgObj: SantaImageObj
+  private tonakaiImgObj: TonakaiImageObj
 
   constructor(containerElement: HTMLElement) {
     this.threeScene = new ThreeScene(containerElement)
@@ -16,8 +18,11 @@ export class ThreeMain {
     this.randomParticlesObj = new RandomParticlesObj(this.threeScene.scene)
     this.randomParticlesObj.createParticlesObj()
 
-    this.imageObj = new SantaImageObj(this.threeScene.scene)
-    this.imageObj.createImageObj()
+    this.santaImgObj = new SantaImageObj(this.threeScene.scene)
+    this.santaImgObj.createImageObj()
+
+    this.tonakaiImgObj = new TonakaiImageObj(this.threeScene.scene)
+    this.tonakaiImgObj.createImageObj()
 
     this.myAnimate = this.myAnimate.bind(this)
     this.myAnimate()
@@ -34,7 +39,8 @@ export class ThreeMain {
     this.threeScene.renderer.render(this.threeScene.scene, this.threeScene.camera)
 
     this.randomParticlesObj.animateParticle()
-    this.imageObj.update()
+    this.santaImgObj.update()
+    this.tonakaiImgObj.update()
   }
 
   public resetCamera(): void {
