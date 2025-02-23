@@ -1,7 +1,7 @@
 import { use } from "react";
-import { PropsType } from "../-types";
+import { ShowInfoProps } from "../-types";
 
-export default function ShowInfo({ user, santaPass }: PropsType) {
+export default function ShowInfo({ user, santaPass }: ShowInfoProps) {
   const _user = use(user)
   const _santaPass = use(santaPass)
 
