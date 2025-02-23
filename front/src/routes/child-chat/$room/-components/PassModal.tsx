@@ -4,7 +4,8 @@ import { ChangeEvent, useState } from 'react'
 import { verifySantaPass } from '~/../../clientSupabase/supabase/santaPass/santaPass'
 import { Box, Button, Card, CardContent, TextField } from '@mui/material'
 
-export const PassModal = createCallable<PassModalProps, Response>(({ call, message, setPassOk }) => {
+export const PassModal = createCallable<PassModalProps, Response>(
+  ({ call, message, setPassOk }) => {
     const [santaPass, setSantaPass] = useState<string>('')
     const [isPassEmpty, setIsPassEmpty] = useState<boolean>(false)
 
@@ -38,7 +39,6 @@ export const PassModal = createCallable<PassModalProps, Response>(({ call, messa
         alert('認証に失敗しました')
         call.end(false)
       } else {
-        alert(`認証成功! 4桁パスワード: ${parsedNewSantaPass}`)
         call.end(true)
         setPassOk(true)
       }
