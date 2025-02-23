@@ -1,7 +1,4 @@
-import { User } from "@supabase/supabase-js";
-
 export interface ShowInfoProps {
-  user: Promise<User | null>;
   santaPass: Promise<number | null>;
 }
 

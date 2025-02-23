@@ -1,26 +1,10 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import ChatIcon from '@mui/icons-material/Chat'
-import { User } from '@supabase/supabase-js'
 import { Link } from '@tanstack/react-router'
 import { use } from 'react'
 
-export default function ToSantaChat({
-  user,
-  santaPass
-}: {
-  user: Promise<User | null>
-  santaPass: Promise<number | null>
-}) {
-  const _user = use(user)
+export default function ToSantaChat({ santaPass }: { santaPass: Promise<number | null> }) {
   const _santaPass = use(santaPass)
-
-  if (!_user) {
-    return (
-      <Typography color="error" variant="h6">
-        ユーザー認証に失敗しました
-      </Typography>
-    )
-  }
 
   if (!_santaPass) {
     return
