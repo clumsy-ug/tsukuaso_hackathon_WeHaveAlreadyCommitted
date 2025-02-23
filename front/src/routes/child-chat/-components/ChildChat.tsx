@@ -2,6 +2,7 @@ import { useParams } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
 import { ChatManager } from '../../../../../clientSupabase/supabase/realtime/chatManager'
 import { initConnectCheck } from '../-function/passwordManager'
+import { RecognitionVoice } from '../-function/recognitionVoice'
 import { ThreeMain } from '~/three/threeMain'
 import { Box } from '@mui/material'
 import MessageWind from './MessageWind'
@@ -17,6 +18,7 @@ export default function ChildChat() {
 
   const threeCanvasRef = useRef<HTMLDivElement>(null)
   const threeMainRef = useRef<ThreeMain | null>(null)
+  const recognitionVoiceRef = useRef<RecognitionVoice | null>(null)
 
   useEffect(() => {
     // 開発者モードだと２回呼ばれる対策
@@ -37,6 +39,10 @@ export default function ChildChat() {
     }
   }, [])
 
+  useEffect(() => {
+    recognitionVoiceRef.current = new RecognitionVoice(setSendMessage)
+  }, [])
+
   const handleCheckPassword = async () => {
     if (simplePassword === null) {
       return
@@ -48,10 +54,6 @@ export default function ChildChat() {
         chatManagerRef.current = new ChatManager(room, setReceiveMessages, false, 'child')
       }
     }
-  }
-
-  const handleClick = () => {
-    alert('音声認識スタート！')
   }
 
   return (
@@ -78,7 +80,7 @@ export default function ChildChat() {
         sendMessage={sendMessage}
         setSendMessage={setSendMessage}
         onSendClick={() => chatManagerRef.current?.sendMessage(sendMessage)}
-        onMicClick={handleClick}
+        onMicClick={() => recognitionVoiceRef.current?.reset()}
       />
 
       <input
