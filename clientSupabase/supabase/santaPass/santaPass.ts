@@ -79,6 +79,30 @@ export const verifySantaPass = async (password: number): Promise<boolean> => {
   }
 }
 
+export const getSantaPass = async (): Promise<number | null> => {
+  try {
+    const userSession = await getSession()
+
+    if (userSession === null) {
+      return null
+    }
+    const { data } = await supabase
+      .from('SantaPassword')
+      .select('password')
+      .eq('uid', userSession.id)
+      .single()
+
+    if (data === null) {
+      return null
+    }
+
+    return data.password
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
 export const toChildCVerifySantaPass = async (password: number, uid: string): Promise<boolean> => {
   try {
     const { data, error } = await supabase

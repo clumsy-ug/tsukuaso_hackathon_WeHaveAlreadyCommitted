@@ -1,14 +1,18 @@
 import { Suspense } from 'react'
 import { getSession } from '~/../../clientSupabase/supabase/auth/getSession'
+import { getSantaPass } from '~/../../clientSupabase/supabase/santaPass/santaPass'
 import HomePending from './HomePending'
-import PromiseReceiver from './PromiseReceiver'
+import ToSantaChat from './ToSantaChat'
+import ShowInfo from './ShowInfo'
 
 export default function Home() {
   const user = getSession()
+  const santaPass = getSantaPass()
 
   return (
     <Suspense fallback={<HomePending />}>
-      <PromiseReceiver user={user} />
+      <ToSantaChat user={user} />
+      <ShowInfo user={user} santaPass={santaPass} />
     </Suspense>
   )
 }
