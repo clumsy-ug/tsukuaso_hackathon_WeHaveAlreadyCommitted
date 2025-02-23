@@ -30,8 +30,8 @@ export class RecognitionVoice {
     }
 
     this.recognition.onerror = (event: { error: unknown }) => {
-      return
       console.error('音声認識エラー:', event.error)
+      return
     }
 
     this.recognition.onend = () => {
