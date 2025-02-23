@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import { getSession } from '~/../../clientSupabase/supabase/auth/getSession'
 import { getSantaPass } from '~/../../clientSupabase/supabase/santaPass/santaPass'
 import HomePending from './HomePending'
@@ -31,7 +31,7 @@ const StyledCard = styled(Card)(() => ({
 export default function Home() {
   const user = getSession()
   const santaPass = getSantaPass()
-
+  const [registerSuccess, setRegisterSuccess] = useState<boolean>(false)
   return (
     <Container maxWidth="md">
       <Box
@@ -46,8 +46,10 @@ export default function Home() {
         <Suspense fallback={<HomePending />}>
           <StyledCard>
             <ShowInfo user={user} santaPass={santaPass} />
-            <CheckSantaPassExists santaPass={santaPass} />
-            <ToSantaChat user={user} />
+            {!registerSuccess && (
+              <CheckSantaPassExists santaPass={santaPass} setRegisterSuccess={setRegisterSuccess} />
+            )}
+            <ToSantaChat user={user} santaPass={santaPass} />
           </StyledCard>
         </Suspense>
       </Box>

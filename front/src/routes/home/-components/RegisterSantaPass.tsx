@@ -1,16 +1,14 @@
 import { createCallable } from 'react-call'
 import { RegisterManagePassProps } from '../-types'
 import { Response } from '../-types'
-import { Box, Button, Card, CardContent, TextField } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
 import { saveSantaPass } from '~/../../clientSupabase/supabase/santaPass/santaPass'
-import { useNavigate } from '@tanstack/react-router'
 
 export const RegisterSantaPass = createCallable<RegisterManagePassProps, Response>(
-  ({ call, message, setRegisterSuccess }) => {
+  ({ call, setRegisterSuccess }) => {
     const [newSantaPass, setNewSantaPass] = useState<string>('')
     const [isPassEmpty, setIsPassEmpty] = useState<boolean>(false)
-    const navigate = useNavigate()
 
     const onPassChange = (e: ChangeEvent<HTMLInputElement>) => {
       setNewSantaPass(e.target.value)
@@ -42,70 +40,60 @@ export const RegisterSantaPass = createCallable<RegisterManagePassProps, Respons
         alert('登録に失敗しました')
         call.end(false)
       } else {
-        alert(`登録成功! 4桁パスワード: ${parsedNewSantaPass}`)
+        setRegisterSuccess(true) // 画面更新する(ボタンが消えた状態になるはず)ために再レンダリング → このやり方は本当に最適解か？
+
         call.end(true)
-        navigate({ to: '/home' })
-        setRegisterSuccess(true)  // 画面更新する(ボタンが消えた状態になるはず)ために再レンダリング → このやり方は本当に最適解か？
+
+        /*await router.invalidate()
+        navigate({
+          to: '/home',
+          replace: true,
+          search: { _t: Date.now() } // クエリパラメータを変更して強制的に再読み込み
+        })*/
       }
     }
 
     return (
-      <div role="dialog">
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '80vh' //正確には縦に対して中央寄せができていない
-          }}
-        >
-          <Card
-            sx={{
-              width: {
-                xs: '90%', // 画面が小さい時
-                sm: '400px', // 小型画面
-                md: '500px' // 中型画面
-              },
-              maxWidth: '700px',
-              margin: 'auto'
+      <Dialog open={true} onClose={() => call.end(false)} maxWidth="sm" fullWidth>
+        <DialogTitle sx={{ fontWeight: 'bold', color: '#FF4B79', pb: 1 }}>
+          パスワードの設定
+        </DialogTitle>
+
+        <DialogContent>
+          <TextField
+            label="新しい4桁パスワードを入力"
+            fullWidth
+            margin="dense"
+            onChange={onPassChange}
+            onBlur={onBlurPassInput}
+            error={isPassEmpty}
+            helperText={isPassEmpty ? '入力してください' : '半角数字4桁で入力してください'}
+            sx={{ mt: 2 }}
+            inputProps={{
+              maxLength: 4,
+              inputMode: 'numeric',
+              pattern: '[0-9]*'
             }}
-            variant="outlined"
+          />
+        </DialogContent>
+
+        <DialogActions sx={{ px: 3, pb: 3 }}>
+          <Button onClick={() => call.end(false)} sx={{ color: 'text.secondary', mr: 1 }}>
+            キャンセル
+          </Button>
+          <Button
+            variant="contained"
+            onClick={onSubmit}
+            sx={{
+              bgcolor: '#FF4B79',
+              '&:hover': { bgcolor: '#FF3366' },
+              px: 4
+            }}
           >
-            <CardContent>
-              <Box>
-                <Box sx={{ p: 3 }}>
-                  <p>{message}</p>
-
-                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <TextField
-                      label="新しい4桁パスワードを入力"
-                      style={{ marginTop: '15px' }}
-                      onChange={onPassChange}
-                      onBlur={onBlurPassInput}
-                      error={isPassEmpty}
-                      helperText={isPassEmpty ? '入力してください' : ''}
-                    />
-                  </Box>
-
-                  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                    <Button
-                      size="large"
-                      variant="contained"
-                      onClick={onSubmit}
-                      sx={{
-                        width: '80%',
-                        padding: 2
-                      }}
-                    >
-                      登録
-                    </Button>
-                  </Box>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Box>
-      </div>
+            設定する
+          </Button>
+        </DialogActions>
+      </Dialog>
     )
   }
 )

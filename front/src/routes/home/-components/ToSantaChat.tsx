@@ -4,8 +4,15 @@ import { User } from '@supabase/supabase-js'
 import { Link } from '@tanstack/react-router'
 import { use } from 'react'
 
-export default function ToSantaChat({ user }: { user: Promise<User | null> }) {
+export default function ToSantaChat({
+  user,
+  santaPass
+}: {
+  user: Promise<User | null>
+  santaPass: Promise<number | null>
+}) {
   const _user = use(user)
+  const _santaPass = use(santaPass)
 
   if (!_user) {
     return (
@@ -13,6 +20,10 @@ export default function ToSantaChat({ user }: { user: Promise<User | null> }) {
         ユーザー認証に失敗しました
       </Typography>
     )
+  }
+
+  if (!_santaPass) {
+    return
   }
 
   return (
@@ -33,7 +44,7 @@ export default function ToSantaChat({ user }: { user: Promise<User | null> }) {
           fontSize: '1rem'
         }}
       >
-        子供たちとチャットを始める
+        子供とチャットを始める
       </Button>
     </Box>
   )
