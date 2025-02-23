@@ -4,6 +4,7 @@ import { getSantaPass } from '~/../../clientSupabase/supabase/santaPass/santaPas
 import HomePending from './HomePending'
 import ToSantaChat from './ToSantaChat'
 import ShowInfo from './ShowInfo'
+import CheckSantaPassExists from './CheckSantaPassExists'
 
 export default function Home() {
   const user = getSession()
@@ -13,6 +14,7 @@ export default function Home() {
     <Suspense fallback={<HomePending />}>
       <ToSantaChat user={user} />
       <ShowInfo user={user} santaPass={santaPass} />
+      <CheckSantaPassExists santaPass={santaPass} />
     </Suspense>
   )
 }
