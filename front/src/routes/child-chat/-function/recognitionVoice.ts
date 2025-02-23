@@ -3,8 +3,9 @@ export class RecognitionVoice {
   private isRecognizing = false
   private shouldRestart = true // onend で再起動するかどうかを管理
   private isResetting = false // reset() 処理中かどうか
+  private setSendMessage: (message: string) => void
 
-  constructor() {
+  constructor(setSendMessage: (message: string) => void) {
     // @ts-expect-error WebSpeechAPI types not available
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 
@@ -16,7 +17,7 @@ export class RecognitionVoice {
     this.recognition.lang = 'ja-JP'
     this.recognition.interimResults = true
     this.recognition.continuous = true
-
+    this.setSendMessage = setSendMessage
     this.setupEventListeners()
   }
 
@@ -25,12 +26,11 @@ export class RecognitionVoice {
       const allText = Array.from(event.results)
         .map((result) => (result as SpeechRecognitionResult)[0].transcript)
         .join('')
-      console.log('認識結果:', allText)
+      this.setSendMessage(allText)
     }
 
     this.recognition.onerror = (event: { error: unknown }) => {
-      throw console.error()
-
+      return
       console.error('音声認識エラー:', event.error)
     }
 

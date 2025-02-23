@@ -40,7 +40,7 @@ export default function ChildChat() {
   }, [])
 
   useEffect(() => {
-    recognitionVoiceRef.current = new RecognitionVoice()
+    recognitionVoiceRef.current = new RecognitionVoice(setSendMessage)
   }, [])
 
   const handleCheckPassword = async () => {
