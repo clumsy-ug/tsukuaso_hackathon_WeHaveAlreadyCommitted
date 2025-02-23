@@ -36,7 +36,6 @@ export const PassModal = createCallable<PassModalProps, Response>(({ call, messa
       const ok = await verifySantaPass(parsedNewSantaPass)
       if (!ok) {
         alert('認証に失敗しました')
-        call.end(false)
       } else {
         alert(`認証成功! 4桁パスワード: ${parsedNewSantaPass}`)
         call.end(true)
