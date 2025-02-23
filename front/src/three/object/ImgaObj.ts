@@ -1,12 +1,10 @@
 import * as THREE from 'three'
 import santaImage from '../../assets/images/animal_moose.png'
 
-export class TonakaiImageObj {
+export class ImageObj {
   private scene: THREE.Scene
   private mesh: THREE.Mesh | null = null
-  private time: number = 0
-  private amplitude: number = 0.5
-  private frequency: number = 0.01
+  private delayTimer: number | null = null
   private readonly RANGE_X = 20
   private readonly RANGE_Z = 10
 
@@ -47,14 +45,14 @@ export class TonakaiImageObj {
 
         this.mesh = new THREE.Mesh(geometry, material)
         const startX = Math.random() < 0.5 ? -this.RANGE_X : this.RANGE_X
-        const z = -5 - Math.random() * this.RANGE_Z
+        const z = -2
 
-        this.mesh.position.set(startX, -5, z)
+        this.mesh.position.set(startX, -1, -2)
         this.scene.add(this.mesh)
         this.movements = {
-          speed: 0.05 + Math.random() * 0.05, // ランダムな速度
-          directionX: startX < 0 ? 1 : -1, // 左から右、または右から左
-          targetZ: z // 目標のz位置
+          speed: 0.05 + Math.random() * 0.05,
+          directionX: -1,
+          targetZ: z
         }
       },
       undefined,
@@ -65,24 +63,30 @@ export class TonakaiImageObj {
   }
 
   update() {
-    if (!this.mesh) return
-
+    if (!this.mesh || this.delayTimer !== null) return
     const movement = this.movements
 
-    // x方向の移動
     this.mesh.position.x += movement.speed * movement.directionX
 
-    // 範囲外に出たら反対側から再度開始
-    if (movement.directionX > 0 && this.mesh.position.x > this.RANGE_X) {
-      this.mesh.position.x = -this.RANGE_X
-      // 新しいz位置をランダムに設定
-      movement.targetZ = -5 - Math.random() * this.RANGE_Z
-    } else if (movement.directionX < 0 && this.mesh.position.x < -this.RANGE_X) {
-      this.mesh.position.x = this.RANGE_X
-      movement.targetZ = -5 - Math.random() * this.RANGE_Z
+    if (this.mesh.position.x > this.RANGE_X || this.mesh.position.x < -this.RANGE_X) {
+      const delay = 1000 + Math.random() * 5000
+      this.delayTimer = window.setTimeout(() => {
+        if (this.mesh) {
+          this.mesh.position.x = this.mesh.position.x > 0 ? -this.RANGE_X : this.RANGE_X
+        }
+
+        if (Math.random() < 0.5) {
+          this.movements.directionX *= -1
+        }
+
+        if (this.mesh) {
+          this.mesh.scale.x = Math.abs(this.mesh.scale.x) * -this.movements.directionX
+        }
+
+        this.delayTimer = null
+      }, delay)
     }
 
-    // z位置をなめらかに補間
     this.mesh.position.z += (movement.targetZ - this.mesh.position.z) * 0.05
   }
 }
