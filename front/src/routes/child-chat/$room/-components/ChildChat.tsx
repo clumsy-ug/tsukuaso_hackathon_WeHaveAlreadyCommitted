@@ -1,20 +1,18 @@
 import { useParams } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
 import { ChatManager } from '../../../../../../clientSupabase/supabase/realtime/chatManager'
-import { initConnectCheck } from '../../-function/passwordManager'
 import { RecognitionVoice } from '../../-function/recognitionVoice'
 import { ThreeMain } from '~/three/threeMain'
 import { Box } from '@mui/material'
 import MessageWind from './MessageWind'
 import InputAction from './InputAction'
 
-export default function ChildChat() {
+export default function ChildChat({ passCheck }: { passCheck: boolean }) {
   const { room } = useParams({ from: '/child-chat/$room/' })
 
   const chatManagerRef = useRef<ChatManager | null>(null)
   const [sendMessage, setSendMessage] = useState<string>('')
   const [receiveMessages, setReceiveMessages] = useState<{ text: string; sender: string }[]>([])
-  const [simplePassword, setSimplePassword] = useState<number | null>(null)
 
   const threeCanvasRef = useRef<HTMLDivElement>(null)
   const threeMainRef = useRef<ThreeMain | null>(null)
@@ -28,7 +26,6 @@ export default function ChildChat() {
     }
 
     if (threeCanvasRef.current) {
-      console.log('Initializing new instance')
       threeMainRef.current = new ThreeMain(threeCanvasRef.current)
     }
 
@@ -40,21 +37,15 @@ export default function ChildChat() {
   }, [])
 
   useEffect(() => {
-    recognitionVoiceRef.current = new RecognitionVoice(setSendMessage)
-  }, [])
-
-  const handleCheckPassword = async () => {
-    if (simplePassword === null) {
-      return
-    }
-    const isResponse = await initConnectCheck(simplePassword, room)
-    console.log(isResponse)
-    if (isResponse) {
-      if (room !== undefined) {
+    const handleCheckPassword = async () => {
+      if (passCheck && room !== undefined) {
         chatManagerRef.current = new ChatManager(room, setReceiveMessages, false, 'child')
       }
     }
-  }
+    recognitionVoiceRef.current = new RecognitionVoice(setSendMessage)
+
+    handleCheckPassword()
+  }, [passCheck, room])
 
   return (
     <Box
@@ -82,22 +73,6 @@ export default function ChildChat() {
         onSendClick={() => chatManagerRef.current?.sendMessage(sendMessage)}
         onMicClick={() => recognitionVoiceRef.current?.reset()}
       />
-
-      <input
-        placeholder="招待コード４桁"
-        type="number"
-        value={simplePassword ?? ''}
-        onChange={(e) => {
-          // 数字のみを許可
-          if (
-            e.target.value === '' ||
-            (/^\d+$/.test(e.target.value) && e.target.value.length <= 4)
-          ) {
-            setSimplePassword(e.target.value === '' ? null : Number(e.target.value))
-          }
-        }}
-      ></input>
-      <button onClick={handleCheckPassword}>招待コード確認</button>
     </Box>
   )
 }
