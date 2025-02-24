@@ -15,7 +15,6 @@ import { Route as IndexImport } from './routes/index'
 import { Route as ReactcallIndexImport } from './routes/reactcall/index'
 import { Route as HomeIndexImport } from './routes/home/index'
 import { Route as AuthIndexImport } from './routes/auth/index'
-import { Route as SantaCheckIndexImport } from './routes/santa/check/index'
 import { Route as SantaChatIndexImport } from './routes/santa/chat/index'
 import { Route as ChildChatRoomIndexImport } from './routes/child-chat/$room/index'
 
@@ -42,12 +41,6 @@ const HomeIndexRoute = HomeIndexImport.update({
 const AuthIndexRoute = AuthIndexImport.update({
   id: '/auth/',
   path: '/auth/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const SantaCheckIndexRoute = SantaCheckIndexImport.update({
-  id: '/santa/check/',
-  path: '/santa/check/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -109,13 +102,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SantaChatIndexImport
       parentRoute: typeof rootRoute
     }
-    '/santa/check/': {
-      id: '/santa/check/'
-      path: '/santa/check'
-      fullPath: '/santa/check'
-      preLoaderRoute: typeof SantaCheckIndexImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
@@ -128,7 +114,6 @@ export interface FileRoutesByFullPath {
   '/reactcall': typeof ReactcallIndexRoute
   '/child-chat/$room': typeof ChildChatRoomIndexRoute
   '/santa/chat': typeof SantaChatIndexRoute
-  '/santa/check': typeof SantaCheckIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -138,7 +123,6 @@ export interface FileRoutesByTo {
   '/reactcall': typeof ReactcallIndexRoute
   '/child-chat/$room': typeof ChildChatRoomIndexRoute
   '/santa/chat': typeof SantaChatIndexRoute
-  '/santa/check': typeof SantaCheckIndexRoute
 }
 
 export interface FileRoutesById {
@@ -149,7 +133,6 @@ export interface FileRoutesById {
   '/reactcall/': typeof ReactcallIndexRoute
   '/child-chat/$room/': typeof ChildChatRoomIndexRoute
   '/santa/chat/': typeof SantaChatIndexRoute
-  '/santa/check/': typeof SantaCheckIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -161,7 +144,6 @@ export interface FileRouteTypes {
     | '/reactcall'
     | '/child-chat/$room'
     | '/santa/chat'
-    | '/santa/check'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -170,7 +152,6 @@ export interface FileRouteTypes {
     | '/reactcall'
     | '/child-chat/$room'
     | '/santa/chat'
-    | '/santa/check'
   id:
     | '__root__'
     | '/'
@@ -179,7 +160,6 @@ export interface FileRouteTypes {
     | '/reactcall/'
     | '/child-chat/$room/'
     | '/santa/chat/'
-    | '/santa/check/'
   fileRoutesById: FileRoutesById
 }
 
@@ -190,7 +170,6 @@ export interface RootRouteChildren {
   ReactcallIndexRoute: typeof ReactcallIndexRoute
   ChildChatRoomIndexRoute: typeof ChildChatRoomIndexRoute
   SantaChatIndexRoute: typeof SantaChatIndexRoute
-  SantaCheckIndexRoute: typeof SantaCheckIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -200,7 +179,6 @@ const rootRouteChildren: RootRouteChildren = {
   ReactcallIndexRoute: ReactcallIndexRoute,
   ChildChatRoomIndexRoute: ChildChatRoomIndexRoute,
   SantaChatIndexRoute: SantaChatIndexRoute,
-  SantaCheckIndexRoute: SantaCheckIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -218,8 +196,7 @@ export const routeTree = rootRoute
         "/home/",
         "/reactcall/",
         "/child-chat/$room/",
-        "/santa/chat/",
-        "/santa/check/"
+        "/santa/chat/"
       ]
     },
     "/": {
@@ -239,9 +216,6 @@ export const routeTree = rootRoute
     },
     "/santa/chat/": {
       "filePath": "santa/chat/index.tsx"
-    },
-    "/santa/check/": {
-      "filePath": "santa/check/index.tsx"
     }
   }
 }
