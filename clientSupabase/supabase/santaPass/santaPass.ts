@@ -26,7 +26,7 @@ export const saveSantaPass = async (password: number): Promise<boolean> => {
   }
 }
 
-export const isExitPasswordCheck = async (): Promise<boolean> => {
+export const isExistPasswordCheck = async (): Promise<boolean> => {
   try {
     const userSession = await getSession()
 

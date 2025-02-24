@@ -1,5 +1,5 @@
 import {
-  isExitPasswordCheck,
+  isExistPasswordCheck,
   verifySantaPass
 } from '~/../../clientSupabase/supabase/santaPass/santaPass'
 
@@ -8,14 +8,14 @@ const handlePassCheck = async (password: number) => {
   return isCheck
 }
 
-const handleIsExitPasswordCheck = async () => {
-  const isExitPassword: boolean = await isExitPasswordCheck()
-  return isExitPassword
+const handleIsExistPasswordCheck = async () => {
+  const isExistPassword: boolean = await isExistPasswordCheck()
+  return isExistPassword
 }
 
 export const initConnectCheck = async (password: number) => {
-  const isExitPassword = await handleIsExitPasswordCheck()
-  if (isExitPassword == false) {
+  const isExistPassword = await handleIsExistPasswordCheck()
+  if (isExistPassword == false) {
     return false
   }
 
