@@ -97,7 +97,7 @@ export default function Auth() {
 
   // ログイン済みの人が/authにきたら/homeに強制的に飛ばすため
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       await sessionCheck()
     })()
   }, [sessionCheck])
