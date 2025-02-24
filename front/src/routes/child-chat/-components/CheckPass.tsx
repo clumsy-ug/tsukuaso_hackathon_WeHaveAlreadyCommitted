@@ -1,3 +1,4 @@
+import toast, { Toaster } from 'react-hot-toast'
 import { useEffect, useState } from 'react'
 import { PassModal } from './PassModal'
 import ChildChat from './ChildChat'
@@ -9,6 +10,7 @@ export default function CheckPass() {
     (async () => {
       const ok = await PassModal.call({ message: 'パスワードを入力してください', setPassOk })
       if (ok) {
+        toast.success('認証成功！')
         setPassOk(true)
       }
     })()
@@ -16,6 +18,7 @@ export default function CheckPass() {
 
   return (
     <>
+      <Toaster />
       <PassModal.Root />
       {passOk && <ChildChat passCheck={passOk} />}
     </>
