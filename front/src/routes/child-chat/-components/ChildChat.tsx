@@ -1,15 +1,14 @@
-import { useParams } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
-import { ChatManager } from '../../../../../../clientSupabase/supabase/realtime/chatManager'
-import { RecognitionVoice } from '../../-function/recognitionVoice'
+import { ChatManager } from '../../../../../clientSupabase/supabase/realtime/chatManager'
+import { RecognitionVoice } from '../-function/recognitionVoice'
 import { ThreeMain } from '~/three/threeMain'
 import { Box } from '@mui/material'
 import MessageWind from './MessageWind'
 import InputAction from './InputAction'
 
 export default function ChildChat({ passCheck }: { passCheck: boolean }) {
-  const { room } = useParams({ from: '/child-chat/$room/' })
-
+  const urlParams = new URLSearchParams(window.location.search)
+  const room = urlParams.get('id')
   const chatManagerRef = useRef<ChatManager | null>(null)
   const [sendMessage, setSendMessage] = useState<string>('')
   const [receiveMessages, setReceiveMessages] = useState<{ text: string; sender: string }[]>([])
@@ -37,11 +36,12 @@ export default function ChildChat({ passCheck }: { passCheck: boolean }) {
   }, [])
 
   useEffect(() => {
-    recognitionVoiceRef.current = new RecognitionVoice(setSendMessage);
-
-    (async () => {
+    recognitionVoiceRef.current = new RecognitionVoice(setSendMessage)
+    ;(async () => {
       if (passCheck && room !== undefined) {
-        chatManagerRef.current = new ChatManager(room, setReceiveMessages, false, 'child')
+        if (room) {
+          chatManagerRef.current = new ChatManager(room, setReceiveMessages, false, 'child')
+        }
       }
     })()
   }, [passCheck, room])
