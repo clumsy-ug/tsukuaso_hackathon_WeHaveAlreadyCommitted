@@ -5,6 +5,7 @@ import ToSantaChat from './ToSantaChat'
 import ShowInfo from './ShowInfo'
 import CheckSantaPassExists from './CheckSantaPassExists'
 import { Box, Card, Container, styled } from '@mui/material'
+import { getSession } from '~/../../clientSupabase/supabase/auth/getSession'
 
 const StyledCard = styled(Card)(() => ({
   maxWidth: 700,
@@ -28,6 +29,7 @@ const StyledCard = styled(Card)(() => ({
 }))
 
 export default function Home() {
+  const user = getSession()
   const santaPass = getSantaPass()
   const [registerSuccess, setRegisterSuccess] = useState<boolean>(false)
 
@@ -44,7 +46,7 @@ export default function Home() {
       >
         <Suspense fallback={<HomePending />}>
           <StyledCard>
-            <ShowInfo santaPass={santaPass} />
+            <ShowInfo santaPass={santaPass} user={user} />
             {!registerSuccess && (
               <CheckSantaPassExists santaPass={santaPass} setRegisterSuccess={setRegisterSuccess} />
             )}
