@@ -37,7 +37,10 @@ export default function InputAction({
       />
       <Button
         variant="contained"
-        onClick={onSendClick}
+        onClick={() => {
+          onSendClick()
+          setSendMessage('')
+        }}
         sx={{
           minWidth: '100px',
           bgcolor: '#1976d2',
