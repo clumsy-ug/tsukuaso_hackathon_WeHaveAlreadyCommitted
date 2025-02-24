@@ -1,4 +1,5 @@
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
@@ -57,47 +58,54 @@ export default function Auth() {
 
   const onLoginSubmit = async () => {
     if (!mailAddress || !password) {
-      alert('メールアドレスもしくはパスワードが入力されていません')
+      toast.error('メールアドレスかパスワードが入力されていません')
       return
     }
+
     try {
       const flag = await emailLogin(mailAddress, password)
       if (flag) {
+        toast.success('ログイン成功！')
         navigate({ to: '/home' })
       } else {
-        alert('ログインに失敗しました')
+        toast.error('ログイン失敗！')
       }
     } catch (error) {
+      toast.error('ログイン失敗！')
       console.error('ログインエラー:', error)
     }
   }
 
   const onSignupSubmit = async () => {
     if (!mailAddress || !password) {
-      alert('メールアドレスもしくはパスワードが入力されていません')
+      toast.error('メールアドレスかパスワードが入力されていません')
       return
     }
     try {
       const flag = await emailSignUp(mailAddress, password)
       if (flag) {
+        toast.success('ログイン成功！')
         navigate({ to: '/home' })
       } else {
-        alert('新規登録に失敗しました')
+        toast.error('新規登録に失敗しました')
       }
     } catch (error) {
+      toast.error('ログインエラー！')
       console.error('ログインエラー:', error)
     }
   }
 
   // ログイン済みの人が/authにきたら/homeに強制的に飛ばすため
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       await sessionCheck()
-    })();
+    })()
   }, [sessionCheck])
 
   return (
     <div>
+      <Toaster />
+
       <Box
         sx={{
           display: 'flex',
