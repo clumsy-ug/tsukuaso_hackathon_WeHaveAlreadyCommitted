@@ -1,17 +1,12 @@
-import { Suspense } from "react";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import { getSession } from "~/../../clientSupabase/supabase/auth/getSession";
-import LoginContextProvider from "./LoginContextProvider";
-import HomePending from "./HomePending";
+import { TanStackRouterDevtools } from '@tanstack/router-devtools'
+import { Outlet } from '@tanstack/react-router'
+import NavbarTop from './NavbarTop'
 
 export default function Root() {
-  const user = getSession()
-
   return (
     <>
-      <Suspense fallback={<HomePending />}>
-        <LoginContextProvider user={user} />
-      </Suspense>
+      <NavbarTop />
+      <Outlet />
       <TanStackRouterDevtools />
     </>
   )

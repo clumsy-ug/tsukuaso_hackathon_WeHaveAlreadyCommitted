@@ -1,14 +1,14 @@
-import { createRootRoute } from '@tanstack/react-router'
+import { createRootRoute, redirect } from '@tanstack/react-router'
 import Root from './-components/Root'
+import { getSession } from '~/../../clientSupabase/supabase/auth/getSession'
 
 export const Route = createRootRoute({
-  // beforeLoad: async ({ location }) => {
-  //   return checkAuthSession(location.pathname)
-  // },
+  beforeLoad: async ({ location }) => {
+    return checkAuthSession(location.pathname)
+  },
   component: () => <Root />
 })
 
-/*
 const checkAuthSession = async (pathname: string) => {
   // パターンマッチングのための関数
   const isPublicPath = (path: string) => {
@@ -36,7 +36,5 @@ const checkAuthSession = async (pathname: string) => {
       to: '/auth',
       search: { redirect: pathname }
     })
-  }
-  
+  }  
 }
-*/

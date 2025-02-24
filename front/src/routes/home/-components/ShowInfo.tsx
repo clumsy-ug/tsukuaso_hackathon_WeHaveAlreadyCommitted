@@ -1,17 +1,20 @@
-import { use, useContext } from 'react'
+import { use } from 'react'
 import { ShowInfoProps } from '../-types'
 import { Box, IconButton, Tooltip, Typography } from '@mui/material'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
-import { UserIdContext } from '~/routes/-components/LoginContextProvider'
 
-export default function ShowInfo({ santaPass }: ShowInfoProps) {
+export default function ShowInfo({ user, santaPass }: ShowInfoProps) {
+  const _user = use(user)
   const _santaPass = use(santaPass)
-  const userId = useContext(UserIdContext)
+
+  if (!_user) {
+    return <h1>ユーザー認証に失敗しました</h1>
+  }
 
   if (!_santaPass) return
 
   const baseUrl = window.location.origin
-  const inviteLink = `${baseUrl}/child-chat/${userId}`
+  const inviteLink = `${baseUrl}/child-chat/${_user}`
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(() => alert('コピーしました'))
