@@ -24,7 +24,7 @@ export default function ReceiveMessage({
           key={i}
           sx={{
             display: 'flex',
-            justifyContent: message.sender === 'santa' ? 'flex-start' : 'flex-end',
+            justifyContent: message.sender !== 'santa' ? 'flex-start' : 'flex-end',
             width: '100%'
           }}
         >
@@ -33,7 +33,7 @@ export default function ReceiveMessage({
               p: 2,
               mb: 2,
               maxWidth: '80%',
-              bgcolor: message.sender === 'santa' ? '#e3f2fd' : '#e8f5e9',
+              bgcolor: message.sender !== 'santa' ? '#e3f2fd' : '#e8f5e9',
               borderRadius: 2,
               boxShadow: 1
             }}

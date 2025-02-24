@@ -70,7 +70,11 @@ export default function ChildChat({ passCheck }: { passCheck: boolean }) {
       <InputAction
         sendMessage={sendMessage}
         setSendMessage={setSendMessage}
-        onSendClick={() => chatManagerRef.current?.sendMessage(sendMessage)}
+        onSendClick={() => {
+          chatManagerRef.current?.sendMessage(sendMessage)
+          recognitionVoiceRef.current?.reset()
+          setSendMessage('')
+        }}
         onMicClick={() => recognitionVoiceRef.current?.reset()}
       />
     </Box>
