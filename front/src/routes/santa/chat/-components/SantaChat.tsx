@@ -12,14 +12,13 @@ export default function SantaChat() {
   const [receiveMessages, setReceiveMessages] = useState<{ text: string; sender: string }[]>([])
 
   useEffect(() => {
-    const initConnect = async () => {
+    (async () => {
       const userSession = await getSession()
 
       if (userSession && userSession.id) {
         chatManagerRef.current = new ChatManager(userSession.id, setReceiveMessages, true, 'santa')
       }
-    }
-    initConnect()
+    })()
   }, [])
 
   return (

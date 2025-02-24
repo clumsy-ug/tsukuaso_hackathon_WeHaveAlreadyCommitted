@@ -37,14 +37,13 @@ export default function ChildChat({ passCheck }: { passCheck: boolean }) {
   }, [])
 
   useEffect(() => {
-    const handleCheckPassword = async () => {
+    recognitionVoiceRef.current = new RecognitionVoice(setSendMessage);
+
+    (async () => {
       if (passCheck && room !== undefined) {
         chatManagerRef.current = new ChatManager(room, setReceiveMessages, false, 'child')
       }
-    }
-    recognitionVoiceRef.current = new RecognitionVoice(setSendMessage)
-
-    handleCheckPassword()
+    })()
   }, [passCheck, room])
 
   return (
