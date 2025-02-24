@@ -43,7 +43,10 @@ export default function InputAction({
       <Box sx={{ display: 'flex', gap: 1 }}>
         <Button
           variant="contained"
-          onClick={onSendClick}
+          onClick={() => {
+            onSendClick()
+            setSendMessage('')
+          }}
           sx={{
             bgcolor: '#ffd700',
             color: 'black',

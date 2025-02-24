@@ -16,6 +16,10 @@ export default function ShowInfo({ user, santaPass }: ShowInfoProps) {
   const baseUrl = window.location.origin
   const inviteLink = `${baseUrl}/child-chat/${_user.id}`
 
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text)
+  }
+
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ mb: 3 }}>
@@ -47,7 +51,7 @@ export default function ShowInfo({ user, santaPass }: ShowInfoProps) {
             {inviteLink}
           </Typography>
           <Tooltip title="リンクをコピー">
-            <IconButton size="small">
+            <IconButton onClick={() => copyToClipboard(inviteLink)} size="small">
               <ContentCopyIcon fontSize="small" />
             </IconButton>
           </Tooltip>
@@ -83,7 +87,7 @@ export default function ShowInfo({ user, santaPass }: ShowInfoProps) {
             {_santaPass}
           </Typography>
           <Tooltip title="パスワードをコピー">
-            <IconButton size="small">
+            <IconButton onClick={() => copyToClipboard(_santaPass.toString())} size="small">
               <ContentCopyIcon fontSize="small" />
             </IconButton>
           </Tooltip>
