@@ -60,23 +60,32 @@ export default function Home() {
                   fontWeight: 800,
                   color: '#FF4B79',
                   letterSpacing: -0.5,
-                  fontSize: { xs: '2.5rem', sm: '3.5rem' }
+                  fontSize: { xs: '2.5rem', sm: '3.5rem' },
+                  position: 'relative',
+                  // 下線のアニメーション
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    bottom: -4,
+                    left: 0,
+                    width: '100%',
+                    height: 3,
+                    backgroundColor: '#FF4B79',
+                    animation: 'expandLine 1s ease-out forwards'
+                  },
+                  // テキストのフェードイン
+                  animation: 'fadeIn 1s ease-out',
+                  '@keyframes fadeIn': {
+                    from: { opacity: 0, transform: 'translateY(20px)' },
+                    to: { opacity: 1, transform: 'translateY(0)' }
+                  },
+                  '@keyframes expandLine': {
+                    from: { width: '0%' },
+                    to: { width: '100%' }
+                  }
                 }}
               >
-                サンタさんと
-              </Typography>
-              <Typography
-                variant="h2"
-                align="center"
-                sx={{
-                  fontWeight: 800,
-                  color: '#FF4B79',
-                  letterSpacing: -0.5,
-                  fontSize: { xs: '2rem', sm: '3rem' },
-                  mb: 4
-                }}
-              >
-                ひみつのおはなし
+                サンタさんとはなそう！
               </Typography>
             </Stack>
 
