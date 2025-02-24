@@ -39,7 +39,6 @@ export const PassModal = createCallable<PassModalProps, Response>(
       if (!ok) {
         toast.error('認証に失敗しました')
       } else {
-        toast.success('認証成功！')
         call.end(true)
         setPassOk(true)
       }
