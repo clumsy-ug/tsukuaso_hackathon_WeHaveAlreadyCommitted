@@ -1,3 +1,4 @@
+import toast, { Toaster } from 'react-hot-toast'
 import { createCallable } from 'react-call'
 import { PassModalProps, Response } from '../-types'
 import { ChangeEvent, useState } from 'react'
@@ -24,82 +25,87 @@ export const PassModal = createCallable<PassModalProps, Response>(
 
     const onSubmit = async () => {
       if (!santaPass) {
-        alert('入力欄が空欄です')
+        toast.error('入力欄が空欄です')
         return
       }
 
       if (santaPass.length !== 4 || isNaN(Number(santaPass))) {
-        alert('パスワードは4桁の半角数字である必要があります')
+        toast.error('パスワードは4桁の半角数字である必要があります')
         return
       }
 
       const parsedNewSantaPass = Number(santaPass)
       const ok = await verifySantaPass(parsedNewSantaPass)
       if (!ok) {
-        alert('認証に失敗しました')
+        toast.error('認証に失敗しました')
       } else {
+        toast.success('認証成功！')
         call.end(true)
         setPassOk(true)
       }
     }
 
     return (
-      <div role="dialog">
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '80vh' //正確には縦に対して中央寄せができていない
-          }}
-        >
-          <Card
+      <>
+        <Toaster />
+
+        <div role="dialog">
+          <Box
             sx={{
-              width: {
-                xs: '90%', // 画面が小さい時
-                sm: '400px', // 小型画面
-                md: '500px' // 中型画面
-              },
-              maxWidth: '700px',
-              margin: 'auto'
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '80vh' //正確には縦に対して中央寄せができていない
             }}
-            variant="outlined"
           >
-            <CardContent>
-              <Box>
-                <Box sx={{ p: 3 }}>
-                  <p>{message}</p>
+            <Card
+              sx={{
+                width: {
+                  xs: '90%', // 画面が小さい時
+                  sm: '400px', // 小型画面
+                  md: '500px' // 中型画面
+                },
+                maxWidth: '700px',
+                margin: 'auto'
+              }}
+              variant="outlined"
+            >
+              <CardContent>
+                <Box>
+                  <Box sx={{ p: 3 }}>
+                    <p>{message}</p>
 
-                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <TextField
-                      label="登録済みの4桁パスワードを入力"
-                      style={{ marginTop: '15px' }}
-                      onChange={onPassChange}
-                      onBlur={onBlurPassInput}
-                      error={isPassEmpty}
-                      helperText={isPassEmpty ? '入力してください' : ''}
-                    />
-                  </Box>
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                      <TextField
+                        label="登録済みの4桁パスワードを入力"
+                        style={{ marginTop: '15px' }}
+                        onChange={onPassChange}
+                        onBlur={onBlurPassInput}
+                        error={isPassEmpty}
+                        helperText={isPassEmpty ? '入力してください' : ''}
+                      />
+                    </Box>
 
-                  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                    <Button
-                      size="large"
-                      variant="contained"
-                      onClick={onSubmit}
-                      sx={{
-                        width: '80%',
-                        padding: 2
-                      }}
-                    >
-                      登録
-                    </Button>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                      <Button
+                        size="large"
+                        variant="contained"
+                        onClick={onSubmit}
+                        sx={{
+                          width: '80%',
+                          padding: 2
+                        }}
+                      >
+                        登録
+                      </Button>
+                    </Box>
                   </Box>
                 </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Box>
-      </div>
+              </CardContent>
+            </Card>
+          </Box>
+        </div>
+      </>
     )
   }
 )
