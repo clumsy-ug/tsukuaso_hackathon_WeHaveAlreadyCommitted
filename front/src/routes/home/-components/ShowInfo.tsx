@@ -14,7 +14,7 @@ export default function ShowInfo({ user, santaPass }: ShowInfoProps) {
   if (!_santaPass) return
 
   const baseUrl = window.location.origin
-  const inviteLink = `${baseUrl}/child-chat/${_user}`
+  const inviteLink = `${baseUrl}/child-chat/${_user.id}`
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(() => alert('コピーしました'))
