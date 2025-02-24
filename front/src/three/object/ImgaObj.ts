@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import santaImage from '../../assets/images/animal_moose.png'
 
 export class ImageObj {
   private scene: THREE.Scene
@@ -33,6 +32,7 @@ export class ImageObj {
     }
 
     const textureLoader = new THREE.TextureLoader()
+    const santaImage = import.meta.env.VITE_S3_URL_TONAKAI!
     textureLoader.load(
       santaImage,
       (texture) => {

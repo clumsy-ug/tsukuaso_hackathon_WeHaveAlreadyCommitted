@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import santaImage from '../../assets/images/santa_claus_front.png'
 
 export class SantaImageObj {
   private scene: THREE.Scene
@@ -24,6 +23,7 @@ export class SantaImageObj {
 
     // テクスチャの読み込み
     const textureLoader = new THREE.TextureLoader()
+    const santaImage = import.meta.env.VITE_S3_URL_SANTA!
     textureLoader.load(
       santaImage,
       (texture) => {
