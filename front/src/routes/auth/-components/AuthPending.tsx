@@ -1,5 +1,7 @@
+import PacmanLoader from "react-spinners/PacmanLoader"
+
 export default function AuthPending() {
   return (
-    <h2>ローディング中...</h2>
+    <PacmanLoader />
   )
 }
