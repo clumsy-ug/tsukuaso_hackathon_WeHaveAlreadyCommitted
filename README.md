@@ -1,6 +1,6 @@
 # サンタさんとはなそう！
 
-[ブラウザで遊ぶ](https://www.google.com/)
+[ブラウザで遊ぶ](https://tsukuaso-hackathon-we-have-already-committed.vercel.app/)
 
 本アプリは、子どもとサンタがリアルタイムに会話できるチャットアプリです。
 
