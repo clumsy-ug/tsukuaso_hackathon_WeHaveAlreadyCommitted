@@ -3,11 +3,12 @@ import { Link, useNavigate } from '@tanstack/react-router'
 import toast, { Toaster } from 'react-hot-toast'
 import HomeIcon from '@mui/icons-material/Home'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { use } from 'react'
+import { use, useState } from 'react'
 import { User } from '@supabase/supabase-js'
 import { logout } from '~/../../clientSupabase/supabase/auth/logout'
 
 export default function DynamicNavbarTop({ user }: { user: Promise<User | null> }) {
+  const [logOutSuccess, setLogOutSuccess] = useState<boolean>(false)
   const navigate = useNavigate()
   const _user = use(user)
 
@@ -17,7 +18,8 @@ export default function DynamicNavbarTop({ user }: { user: Promise<User | null> 
       toast.error('ログアウト失敗！')
       return
     }
-    toast.success('ログアウト成功');
+    toast.success('ログアウト成功')
+    setLogOutSuccess(true)
     navigate({ to: '/' })
   }
 
@@ -47,8 +49,7 @@ export default function DynamicNavbarTop({ user }: { user: Promise<User | null> 
           {/* 右端に要素を配置するための Box */}
           <Box sx={{ flexGrow: 1 }} />
 
-          {/* isLoggedIn が true の場合のみログアウトアイコンを表示 */}
-          {_user && (
+          {_user && !logOutSuccess && (
             <IconButton
               color="inherit"
               aria-label="logout"
