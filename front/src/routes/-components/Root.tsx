@@ -7,7 +7,7 @@ export default function Root() {
     <>
       <NavbarTop />
       <Outlet />
-      <TanStackRouterDevtools />
+      {import.meta.env.DEV && <TanStackRouterDevtools />}
     </>
   )
 }
