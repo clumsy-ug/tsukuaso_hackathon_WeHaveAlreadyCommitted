@@ -10,7 +10,7 @@ export default function CheckPass() {
     (async () => {
       const ok = await PassModal.call({ message: 'パスワードを入力してください', setPassOk })
       if (ok) {
-        toast.success('認証成功！')
+        toast.success('認証成功')
         setPassOk(true)
       }
     })()

@@ -63,13 +63,13 @@ export default function Auth() {
     try {
       const flag = await emailLogin(mailAddress, password)
       if (flag) {
-        toast.success('ログイン成功！')
+        toast.success('ログイン成功')
         navigate({ to: '/home' })
       } else {
-        toast.error('ログイン失敗！')
+        toast.error('ログイン失敗')
       }
     } catch (error) {
-      toast.error('ログイン失敗！')
+      toast.error('ログイン失敗')
       console.error('ログインエラー:', error)
     }
   }
@@ -82,13 +82,13 @@ export default function Auth() {
     try {
       const flag = await emailSignUp(mailAddress, password)
       if (flag) {
-        toast.success('ログイン成功！')
+        toast.success('ログイン成功')
         navigate({ to: '/home' })
       } else {
         toast.error('新規登録に失敗しました')
       }
     } catch (error) {
-      toast.error('ログインエラー！')
+      toast.error('ログインエラー')
       console.error('ログインエラー:', error)
     }
   }
