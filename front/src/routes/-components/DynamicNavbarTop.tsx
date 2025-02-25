@@ -15,7 +15,7 @@ export default function DynamicNavbarTop({ user }: { user: Promise<User | null> 
   const handleLogout = async () => {
     const ok = await logout()
     if (!ok) {
-      toast.error('ログアウト失敗！')
+      toast.error('ログアウト失敗')
       return
     }
     toast.success('ログアウト成功')
