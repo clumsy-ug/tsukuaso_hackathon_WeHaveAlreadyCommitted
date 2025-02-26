@@ -55,8 +55,18 @@ export default function Auth() {
   }
 
   const onLoginSubmit = async () => {
-    if (!mailAddress || !password) {
-      toast.error('メールアドレスかパスワードが入力されていません')
+    if (!mailAddress && !password) {
+      toast.error('メールアドレスとパスワードが入力されていません')
+      return
+    }
+
+    if (!mailAddress) {
+      toast.error('メールアドレスが入力されていません')
+      return
+    }
+
+    if (!password) {
+      toast.error('パスワードが入力されていません')
       return
     }
 
@@ -75,10 +85,21 @@ export default function Auth() {
   }
 
   const onSignupSubmit = async () => {
-    if (!mailAddress || !password) {
-      toast.error('メールアドレスかパスワードが入力されていません')
+    if (!mailAddress && !password) {
+      toast.error('メールアドレスとパスワードが入力されていません')
       return
     }
+
+    if (!mailAddress) {
+      toast.error('メールアドレスが入力されていません')
+      return
+    }
+
+    if (!password) {
+      toast.error('パスワードが入力されていません')
+      return
+    }
+
     try {
       const flag = await emailSignUp(mailAddress, password)
       if (flag) {
