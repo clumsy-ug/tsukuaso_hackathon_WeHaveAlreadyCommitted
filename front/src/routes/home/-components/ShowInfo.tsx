@@ -65,7 +65,7 @@ export default function ShowInfo({ user, santaPass }: ShowInfoProps) {
           gutterBottom
           sx={{ fontWeight: 'bold' }}
         >
-          パスワード
+          パスワード（上👆の招待リンク先に入室する際に必要です）
         </Typography>
         <Box
           sx={{
