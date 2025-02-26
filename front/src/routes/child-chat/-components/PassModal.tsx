@@ -2,11 +2,11 @@ import toast, { Toaster } from 'react-hot-toast'
 import { createCallable } from 'react-call'
 import { PassModalProps, Response } from '../-types'
 import { ChangeEvent, useState } from 'react'
-import { verifySantaPass } from '~/../../clientSupabase/supabase/santaPass/santaPass'
+import { toChildCVerifySantaPass } from '~/../../clientSupabase/supabase/santaPass/santaPass'
 import { Box, Button, Card, CardContent, TextField } from '@mui/material'
 
 export const PassModal = createCallable<PassModalProps, Response>(
-  ({ call, message, setPassOk }) => {
+  ({ call, message, setPassOk, room }) => {
     const [santaPass, setSantaPass] = useState<string>('')
     const [isPassEmpty, setIsPassEmpty] = useState<boolean>(false)
 
@@ -35,7 +35,7 @@ export const PassModal = createCallable<PassModalProps, Response>(
       }
 
       const parsedNewSantaPass = Number(santaPass)
-      const ok = await verifySantaPass(parsedNewSantaPass)
+      const ok = await toChildCVerifySantaPass(parsedNewSantaPass, room)
       if (!ok) {
         toast.error('認証に失敗しました')
       } else {
